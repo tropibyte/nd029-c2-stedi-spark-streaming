@@ -1,3 +1,9 @@
 *.log
+# ...but the project logs are graded deliverables, so keep them tracked.
+!spark/logs/*.log
 *.jar
 cache
+spark/tmp/
+spark/checkpoints/
+spark/jars/
+__pycache__/

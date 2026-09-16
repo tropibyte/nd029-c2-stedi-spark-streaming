@@ -1,0 +1,219 @@
+:: loading settings :: url = jar:file:/opt/spark/jars/ivy-2.5.0.jar!/org/apache/ivy/core/settings/ivysettings.xml
+Ivy Default Cache set to: /root/.ivy2/cache
+The jars for the packages stored in: /root/.ivy2/jars
+org.apache.spark#spark-sql-kafka-0-10_2.12 added as a dependency
+:: resolving dependencies :: org.apache.spark#spark-submit-parent-f51d789c-164a-43bc-9040-de36b17907ec;1.0
+	confs: [default]
+	found org.apache.spark#spark-sql-kafka-0-10_2.12;3.3.0 in central
+	found org.apache.spark#spark-token-provider-kafka-0-10_2.12;3.3.0 in central
+	found org.apache.kafka#kafka-clients;2.8.1 in central
+	found org.lz4#lz4-java;1.8.0 in central
+	found org.xerial.snappy#snappy-java;1.1.8.4 in central
+	found org.slf4j#slf4j-api;1.7.32 in central
+	found org.apache.hadoop#hadoop-client-runtime;3.3.2 in central
+	found org.spark-project.spark#unused;1.0.0 in central
+	found org.apache.hadoop#hadoop-client-api;3.3.2 in central
+	found commons-logging#commons-logging;1.1.3 in central
+	found com.google.code.findbugs#jsr305;3.0.0 in central
+	found org.apache.commons#commons-pool2;2.11.1 in central
+:: resolution report :: resolve 1278ms :: artifacts dl 66ms
+	:: modules in use:
+	com.google.code.findbugs#jsr305;3.0.0 from central in [default]
+	commons-logging#commons-logging;1.1.3 from central in [default]
+	org.apache.commons#commons-pool2;2.11.1 from central in [default]
+	org.apache.hadoop#hadoop-client-api;3.3.2 from central in [default]
+	org.apache.hadoop#hadoop-client-runtime;3.3.2 from central in [default]
+	org.apache.kafka#kafka-clients;2.8.1 from central in [default]
+	org.apache.spark#spark-sql-kafka-0-10_2.12;3.3.0 from central in [default]
+	org.apache.spark#spark-token-provider-kafka-0-10_2.12;3.3.0 from central in [default]
+	org.lz4#lz4-java;1.8.0 from central in [default]
+	org.slf4j#slf4j-api;1.7.32 from central in [default]
+	org.spark-project.spark#unused;1.0.0 from central in [default]
+	org.xerial.snappy#snappy-java;1.1.8.4 from central in [default]
+	---------------------------------------------------------------------
+	|                  |            modules            ||   artifacts   |
+	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
+	---------------------------------------------------------------------
+	|      default     |   12  |   0   |   0   |   0   ||   12  |   0   |
+	---------------------------------------------------------------------
+:: retrieving :: org.apache.spark#spark-submit-parent-f51d789c-164a-43bc-9040-de36b17907ec
+	confs: [default]
+	0 artifacts copied, 12 already retrieved (0kB/40ms)
+26/09/16 19:25:32 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+26/09/16 19:25:34 INFO SparkContext: Running Spark version 3.3.0
+26/09/16 19:25:34 INFO ResourceUtils: ==============================================================
+26/09/16 19:25:34 INFO ResourceUtils: No custom resources configured for spark.driver.
+26/09/16 19:25:34 INFO ResourceUtils: ==============================================================
+26/09/16 19:25:34 INFO SparkContext: Submitted application: stedi-optional-risk-quality
+26/09/16 19:25:34 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 1, script: , vendor: , memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/09/16 19:25:34 INFO ResourceProfile: Limiting resource is cpu
+26/09/16 19:25:34 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/09/16 19:25:34 INFO SecurityManager: Changing view acls to: root
+26/09/16 19:25:34 INFO SecurityManager: Changing modify acls to: root
+26/09/16 19:25:34 INFO SecurityManager: Changing view acls groups to: 
+26/09/16 19:25:34 INFO SecurityManager: Changing modify acls groups to: 
+26/09/16 19:25:34 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(root); groups with view permissions: Set(); users  with modify permissions: Set(root); groups with modify permissions: Set()
+26/09/16 19:25:35 INFO Utils: Successfully started service 'sparkDriver' on port 42443.
+26/09/16 19:25:36 INFO SparkEnv: Registering MapOutputTracker
+26/09/16 19:25:36 INFO SparkEnv: Registering BlockManagerMaster
+26/09/16 19:25:36 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/09/16 19:25:36 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/09/16 19:25:36 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/09/16 19:25:36 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-326ba2c9-d659-4696-80da-af6f15c932c8
+26/09/16 19:25:36 INFO MemoryStore: MemoryStore started with capacity 434.4 MiB
+26/09/16 19:25:36 INFO SparkEnv: Registering OutputCommitCoordinator
+26/09/16 19:25:37 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+26/09/16 19:25:37 INFO SparkContext: Added JAR file:///root/.ivy2/jars/org.apache.spark_spark-sql-kafka-0-10_2.12-3.3.0.jar at spark://spark:42443/jars/org.apache.spark_spark-sql-kafka-0-10_2.12-3.3.0.jar with timestamp 1789586734585
+26/09/16 19:25:37 INFO SparkContext: Added JAR file:///root/.ivy2/jars/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.3.0.jar at spark://spark:42443/jars/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.3.0.jar with timestamp 1789586734585
+26/09/16 19:25:37 INFO SparkContext: Added JAR file:///root/.ivy2/jars/org.apache.kafka_kafka-clients-2.8.1.jar at spark://spark:42443/jars/org.apache.kafka_kafka-clients-2.8.1.jar with timestamp 1789586734585
+26/09/16 19:25:37 INFO SparkContext: Added JAR file:///root/.ivy2/jars/com.google.code.findbugs_jsr305-3.0.0.jar at spark://spark:42443/jars/com.google.code.findbugs_jsr305-3.0.0.jar with timestamp 1789586734585
+26/09/16 19:25:37 INFO SparkContext: Added JAR file:///root/.ivy2/jars/org.apache.commons_commons-pool2-2.11.1.jar at spark://spark:42443/jars/org.apache.commons_commons-pool2-2.11.1.jar with timestamp 1789586734585
+26/09/16 19:25:37 INFO SparkContext: Added JAR file:///root/.ivy2/jars/org.spark-project.spark_unused-1.0.0.jar at spark://spark:42443/jars/org.spark-project.spark_unused-1.0.0.jar with timestamp 1789586734585
+26/09/16 19:25:37 INFO SparkContext: Added JAR file:///root/.ivy2/jars/org.apache.hadoop_hadoop-client-runtime-3.3.2.jar at spark://spark:42443/jars/org.apache.hadoop_hadoop-client-runtime-3.3.2.jar with timestamp 1789586734585
+26/09/16 19:25:37 INFO SparkContext: Added JAR file:///root/.ivy2/jars/org.lz4_lz4-java-1.8.0.jar at spark://spark:42443/jars/org.lz4_lz4-java-1.8.0.jar with timestamp 1789586734585
+26/09/16 19:25:37 INFO SparkContext: Added JAR file:///root/.ivy2/jars/org.xerial.snappy_snappy-java-1.1.8.4.jar at spark://spark:42443/jars/org.xerial.snappy_snappy-java-1.1.8.4.jar with timestamp 1789586734585
+26/09/16 19:25:37 INFO SparkContext: Added JAR file:///root/.ivy2/jars/org.slf4j_slf4j-api-1.7.32.jar at spark://spark:42443/jars/org.slf4j_slf4j-api-1.7.32.jar with timestamp 1789586734585
+26/09/16 19:25:37 INFO SparkContext: Added JAR file:///root/.ivy2/jars/org.apache.hadoop_hadoop-client-api-3.3.2.jar at spark://spark:42443/jars/org.apache.hadoop_hadoop-client-api-3.3.2.jar with timestamp 1789586734585
+26/09/16 19:25:37 INFO SparkContext: Added JAR file:///root/.ivy2/jars/commons-logging_commons-logging-1.1.3.jar at spark://spark:42443/jars/commons-logging_commons-logging-1.1.3.jar with timestamp 1789586734585
+26/09/16 19:25:37 INFO SparkContext: Added file file:///root/.ivy2/jars/org.apache.spark_spark-sql-kafka-0-10_2.12-3.3.0.jar at spark://spark:42443/files/org.apache.spark_spark-sql-kafka-0-10_2.12-3.3.0.jar with timestamp 1789586734585
+26/09/16 19:25:37 INFO Utils: Copying /root/.ivy2/jars/org.apache.spark_spark-sql-kafka-0-10_2.12-3.3.0.jar to /tmp/spark-392c6c93-c53b-4b64-89e3-30601bb4dc22/userFiles-0a3323c0-f852-4023-8d58-2c24347f4207/org.apache.spark_spark-sql-kafka-0-10_2.12-3.3.0.jar
+26/09/16 19:25:37 INFO SparkContext: Added file file:///root/.ivy2/jars/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.3.0.jar at spark://spark:42443/files/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.3.0.jar with timestamp 1789586734585
+26/09/16 19:25:37 INFO Utils: Copying /root/.ivy2/jars/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.3.0.jar to /tmp/spark-392c6c93-c53b-4b64-89e3-30601bb4dc22/userFiles-0a3323c0-f852-4023-8d58-2c24347f4207/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.3.0.jar
+26/09/16 19:25:37 INFO SparkContext: Added file file:///root/.ivy2/jars/org.apache.kafka_kafka-clients-2.8.1.jar at spark://spark:42443/files/org.apache.kafka_kafka-clients-2.8.1.jar with timestamp 1789586734585
+26/09/16 19:25:37 INFO Utils: Copying /root/.ivy2/jars/org.apache.kafka_kafka-clients-2.8.1.jar to /tmp/spark-392c6c93-c53b-4b64-89e3-30601bb4dc22/userFiles-0a3323c0-f852-4023-8d58-2c24347f4207/org.apache.kafka_kafka-clients-2.8.1.jar
+26/09/16 19:25:37 INFO SparkContext: Added file file:///root/.ivy2/jars/com.google.code.findbugs_jsr305-3.0.0.jar at spark://spark:42443/files/com.google.code.findbugs_jsr305-3.0.0.jar with timestamp 1789586734585
+26/09/16 19:25:37 INFO Utils: Copying /root/.ivy2/jars/com.google.code.findbugs_jsr305-3.0.0.jar to /tmp/spark-392c6c93-c53b-4b64-89e3-30601bb4dc22/userFiles-0a3323c0-f852-4023-8d58-2c24347f4207/com.google.code.findbugs_jsr305-3.0.0.jar
+26/09/16 19:25:37 INFO SparkContext: Added file file:///root/.ivy2/jars/org.apache.commons_commons-pool2-2.11.1.jar at spark://spark:42443/files/org.apache.commons_commons-pool2-2.11.1.jar with timestamp 1789586734585
+26/09/16 19:25:37 INFO Utils: Copying /root/.ivy2/jars/org.apache.commons_commons-pool2-2.11.1.jar to /tmp/spark-392c6c93-c53b-4b64-89e3-30601bb4dc22/userFiles-0a3323c0-f852-4023-8d58-2c24347f4207/org.apache.commons_commons-pool2-2.11.1.jar
+26/09/16 19:25:37 INFO SparkContext: Added file file:///root/.ivy2/jars/org.spark-project.spark_unused-1.0.0.jar at spark://spark:42443/files/org.spark-project.spark_unused-1.0.0.jar with timestamp 1789586734585
+26/09/16 19:25:37 INFO Utils: Copying /root/.ivy2/jars/org.spark-project.spark_unused-1.0.0.jar to /tmp/spark-392c6c93-c53b-4b64-89e3-30601bb4dc22/userFiles-0a3323c0-f852-4023-8d58-2c24347f4207/org.spark-project.spark_unused-1.0.0.jar
+26/09/16 19:25:37 INFO SparkContext: Added file file:///root/.ivy2/jars/org.apache.hadoop_hadoop-client-runtime-3.3.2.jar at spark://spark:42443/files/org.apache.hadoop_hadoop-client-runtime-3.3.2.jar with timestamp 1789586734585
+26/09/16 19:25:37 INFO Utils: Copying /root/.ivy2/jars/org.apache.hadoop_hadoop-client-runtime-3.3.2.jar to /tmp/spark-392c6c93-c53b-4b64-89e3-30601bb4dc22/userFiles-0a3323c0-f852-4023-8d58-2c24347f4207/org.apache.hadoop_hadoop-client-runtime-3.3.2.jar
+26/09/16 19:25:37 INFO SparkContext: Added file file:///root/.ivy2/jars/org.lz4_lz4-java-1.8.0.jar at spark://spark:42443/files/org.lz4_lz4-java-1.8.0.jar with timestamp 1789586734585
+26/09/16 19:25:37 INFO Utils: Copying /root/.ivy2/jars/org.lz4_lz4-java-1.8.0.jar to /tmp/spark-392c6c93-c53b-4b64-89e3-30601bb4dc22/userFiles-0a3323c0-f852-4023-8d58-2c24347f4207/org.lz4_lz4-java-1.8.0.jar
+26/09/16 19:25:37 INFO SparkContext: Added file file:///root/.ivy2/jars/org.xerial.snappy_snappy-java-1.1.8.4.jar at spark://spark:42443/files/org.xerial.snappy_snappy-java-1.1.8.4.jar with timestamp 1789586734585
+26/09/16 19:25:37 INFO Utils: Copying /root/.ivy2/jars/org.xerial.snappy_snappy-java-1.1.8.4.jar to /tmp/spark-392c6c93-c53b-4b64-89e3-30601bb4dc22/userFiles-0a3323c0-f852-4023-8d58-2c24347f4207/org.xerial.snappy_snappy-java-1.1.8.4.jar
+26/09/16 19:25:37 INFO SparkContext: Added file file:///root/.ivy2/jars/org.slf4j_slf4j-api-1.7.32.jar at spark://spark:42443/files/org.slf4j_slf4j-api-1.7.32.jar with timestamp 1789586734585
+26/09/16 19:25:37 INFO Utils: Copying /root/.ivy2/jars/org.slf4j_slf4j-api-1.7.32.jar to /tmp/spark-392c6c93-c53b-4b64-89e3-30601bb4dc22/userFiles-0a3323c0-f852-4023-8d58-2c24347f4207/org.slf4j_slf4j-api-1.7.32.jar
+26/09/16 19:25:37 INFO SparkContext: Added file file:///root/.ivy2/jars/org.apache.hadoop_hadoop-client-api-3.3.2.jar at spark://spark:42443/files/org.apache.hadoop_hadoop-client-api-3.3.2.jar with timestamp 1789586734585
+26/09/16 19:25:37 INFO Utils: Copying /root/.ivy2/jars/org.apache.hadoop_hadoop-client-api-3.3.2.jar to /tmp/spark-392c6c93-c53b-4b64-89e3-30601bb4dc22/userFiles-0a3323c0-f852-4023-8d58-2c24347f4207/org.apache.hadoop_hadoop-client-api-3.3.2.jar
+26/09/16 19:25:38 INFO SparkContext: Added file file:///root/.ivy2/jars/commons-logging_commons-logging-1.1.3.jar at spark://spark:42443/files/commons-logging_commons-logging-1.1.3.jar with timestamp 1789586734585
+26/09/16 19:25:38 INFO Utils: Copying /root/.ivy2/jars/commons-logging_commons-logging-1.1.3.jar to /tmp/spark-392c6c93-c53b-4b64-89e3-30601bb4dc22/userFiles-0a3323c0-f852-4023-8d58-2c24347f4207/commons-logging_commons-logging-1.1.3.jar
+26/09/16 19:25:38 INFO StandaloneAppClient$ClientEndpoint: Connecting to master spark://spark:7077...
+26/09/16 19:25:38 INFO TransportClientFactory: Successfully created connection to spark/172.18.0.4:7077 after 76 ms (0 ms spent in bootstraps)
+26/09/16 19:25:38 INFO StandaloneSchedulerBackend: Connected to Spark cluster with app ID app-20260916192538-0005
+26/09/16 19:25:38 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20260916192538-0005/0 on worker-20260916185327-172.18.0.6-33449 (172.18.0.6:33449) with 1 core(s)
+26/09/16 19:25:38 INFO StandaloneSchedulerBackend: Granted executor ID app-20260916192538-0005/0 on hostPort 172.18.0.6:33449 with 1 core(s), 1024.0 MiB RAM
+26/09/16 19:25:38 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 37749.
+26/09/16 19:25:38 INFO NettyBlockTransferService: Server created on spark:37749
+26/09/16 19:25:38 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/09/16 19:25:38 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, spark, 37749, None)
+26/09/16 19:25:38 INFO BlockManagerMasterEndpoint: Registering block manager spark:37749 with 434.4 MiB RAM, BlockManagerId(driver, spark, 37749, None)
+26/09/16 19:25:38 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, spark, 37749, None)
+26/09/16 19:25:38 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, spark, 37749, None)
+26/09/16 19:25:38 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20260916192538-0005/0 is now RUNNING
+26/09/16 19:25:39 INFO StandaloneSchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+26/09/16 19:25:49 WARN ResolveWriteToStream: spark.sql.adaptive.enabled is not supported in streaming DataFrames/Datasets and will be disabled.
+26/09/16 19:25:51 WARN ResolveWriteToStream: spark.sql.adaptive.enabled is not supported in streaming DataFrames/Datasets and will be disabled.
+===== batch 0: STEDI score vs independently computed score =====
++--------------------------+-------------+-------------+-----+--------------------------------+
+|email                     |reportedScore|computedScore|delta|verdict                         |
++--------------------------+-------------+-------------+-----+--------------------------------+
+|Ashley.Fibonnaci@test.com |26.5         |26.5         |0.0  |MATCH                           |
+|Ashley.Olson@test.com     |-3.5         |-3.5         |0.0  |MATCH                           |
+|Ben.Aristotle@test.com    |0.0          |0.0          |0.0  |MATCH                           |
+|Bobby.Fibonnaci@test.com  |12.5         |12.5         |0.0  |MATCH                           |
+|Chris.Lincoln@test.com    |6.5          |6.5          |0.0  |MATCH                           |
+|Dan.Anderson@test.com     |-2.5         |-2.5         |0.0  |MATCH                           |
+|Danny.Spencer@test.com    |-5.0         |-5.0         |0.0  |MATCH                           |
+|David.Anderson@test.com   |33.5         |33.5         |0.0  |MATCH                           |
+|Edward.Aristotle@test.com |-3.0         |-3.0         |0.0  |MATCH                           |
+|Eric.Ahmed@test.com       |-2.5         |-2.5         |0.0  |MATCH                           |
+|Eric.Staples@test.com     |5.0          |5.0          |0.0  |MATCH                           |
+|Frank.Fibonnaci@test.com  |-3.5         |-3.5         |0.0  |MATCH                           |
+|Frank.Staples@test.com    |7.0          |7.0          |0.0  |MATCH                           |
+|Gail.Gonzalez@test.com    |3.0          |3.0          |0.0  |MATCH                           |
+|Jason.Wu@test.com         |-1.0         |-1.0         |0.0  |MATCH                           |
+|Jerry.Abram@test.com      |-19.0        |-19.0        |0.0  |MATCH                           |
+|Jerry.Smith@test.com      |-2.0         |-2.0         |0.0  |MATCH                           |
+|John.Jefferson@test.com   |-3.5         |-3.5         |0.0  |MATCH                           |
+|John.Smith@test.com       |-2.5         |-2.5         |0.0  |MATCH                           |
+|Neeraj.Anandh@test.com    |30.0         |30.0         |0.0  |MATCH                           |
+|Neeraj.Spencer@test.com   |-1.0         |-1.0         |0.0  |MATCH                           |
+|Santosh.Smith@test.com    |-10.5        |-10.5        |0.0  |MATCH                           |
+|Sarah.Fibonnaci@test.com  |-15.5        |-15.5        |0.0  |MATCH                           |
+|Sean.Howard@test.com      |-7.0         |-7.0         |0.0  |MATCH                           |
+|Sean.Lincoln@test.com     |14.0         |14.0         |0.0  |MATCH                           |
+|Senthil.Fibonnaci@test.com|-5.5         |-5.0         |-0.5 |same direction, different window|
+|Spencer.Lincoln@test.com  |24.0         |24.0         |0.0  |MATCH                           |
+|Travis.Davis@test.com     |28.0         |28.0         |0.0  |MATCH                           |
++--------------------------+-------------+-------------+-----+--------------------------------+
+
+===== batch 1: STEDI score vs independently computed score =====
++--------------------------+-------------+-------------+-----+--------------------------------+
+|email                     |reportedScore|computedScore|delta|verdict                         |
++--------------------------+-------------+-------------+-----+--------------------------------+
+|Ashley.Fibonnaci@test.com |24.5         |24.5         |0.0  |MATCH                           |
+|Ashley.Olson@test.com     |-3.5         |-3.5         |0.0  |MATCH                           |
+|Ben.Aristotle@test.com    |-28.5        |-28.5        |0.0  |MATCH                           |
+|Bobby.Fibonnaci@test.com  |-5.0         |-5.0         |0.0  |MATCH                           |
+|Chris.Lincoln@test.com    |-13.0        |-13.0        |0.0  |MATCH                           |
+|Dan.Anderson@test.com     |-2.5         |-2.5         |0.0  |MATCH                           |
+|Danny.Spencer@test.com    |-4.0         |-4.0         |0.0  |MATCH                           |
+|David.Anderson@test.com   |17.5         |17.5         |0.0  |MATCH                           |
+|Edward.Aristotle@test.com |-3.0         |-3.0         |0.0  |MATCH                           |
+|Eric.Ahmed@test.com       |-10.0        |-10.0        |0.0  |MATCH                           |
+|Eric.Staples@test.com     |5.0          |5.0          |0.0  |MATCH                           |
+|Frank.Fibonnaci@test.com  |-3.5         |-3.5         |0.0  |MATCH                           |
+|Frank.Staples@test.com    |-19.5        |-19.5        |0.0  |MATCH                           |
+|Gail.Gonzalez@test.com    |28.5         |28.5         |0.0  |MATCH                           |
+|Jason.Wu@test.com         |-1.0         |-1.0         |0.0  |MATCH                           |
+|Jerry.Abram@test.com      |-18.5        |-19.0        |0.5  |same direction, different window|
+|Jerry.Smith@test.com      |-2.0         |-2.0         |0.0  |MATCH                           |
+|John.Jefferson@test.com   |-3.5         |-3.5         |0.0  |MATCH                           |
+|John.Smith@test.com       |-2.5         |-2.5         |0.0  |MATCH                           |
+|Neeraj.Anandh@test.com    |30.0         |30.0         |0.0  |MATCH                           |
+|Neeraj.Spencer@test.com   |-1.0         |-1.0         |0.0  |MATCH                           |
+|Santosh.Smith@test.com    |14.5         |14.5         |0.0  |MATCH                           |
+|Sarah.Fibonnaci@test.com  |-9.0         |-9.0         |0.0  |MATCH                           |
+|Sean.Howard@test.com      |-4.5         |-4.5         |0.0  |MATCH                           |
+|Sean.Lincoln@test.com     |-2.5         |-2.5         |0.0  |MATCH                           |
+|Senthil.Fibonnaci@test.com|-5.0         |-5.0         |0.0  |MATCH                           |
+|Spencer.Lincoln@test.com  |-11.0        |-11.0        |0.0  |MATCH                           |
+|Travis.Davis@test.com     |10.0         |10.0         |0.0  |MATCH                           |
++--------------------------+-------------+-------------+-----+--------------------------------+
+
+===== batch 2: STEDI score vs independently computed score =====
++--------------------------+-------------+-------------+-----+--------------------------------+
+|email                     |reportedScore|computedScore|delta|verdict                         |
++--------------------------+-------------+-------------+-----+--------------------------------+
+|Ashley.Fibonnaci@test.com |24.5         |24.5         |0.0  |MATCH                           |
+|Ashley.Olson@test.com     |-5.5         |-3.5         |-2.0 |same direction, different window|
+|Ben.Aristotle@test.com    |-28.5        |-28.5        |0.0  |MATCH                           |
+|Bobby.Fibonnaci@test.com  |-5.0         |-5.0         |0.0  |MATCH                           |
+|Chris.Lincoln@test.com    |-13.0        |-13.0        |0.0  |MATCH                           |
+|Dan.Anderson@test.com     |-2.5         |-2.5         |0.0  |MATCH                           |
+|Danny.Spencer@test.com    |-4.0         |-4.0         |0.0  |MATCH                           |
+|David.Anderson@test.com   |17.5         |17.5         |0.0  |MATCH                           |
+|Edward.Aristotle@test.com |-3.5         |-3.5         |0.0  |MATCH                           |
+|Eric.Ahmed@test.com       |-10.0        |-10.0        |0.0  |MATCH                           |
+|Eric.Staples@test.com     |-26.0        |-26.0        |0.0  |MATCH                           |
+|Frank.Fibonnaci@test.com  |-3.5         |-3.5         |0.0  |MATCH                           |
+|Frank.Staples@test.com    |-19.5        |-19.5        |0.0  |MATCH                           |
+|Gail.Gonzalez@test.com    |28.5         |28.5         |0.0  |MATCH                           |
+|Jason.Wu@test.com         |-1.5         |-1.5         |0.0  |MATCH                           |
+|Jerry.Abram@test.com      |-18.5        |-18.5        |0.0  |MATCH                           |
+|Jerry.Smith@test.com      |-2.5         |-2.0         |-0.5 |same direction, different window|
+|John.Jefferson@test.com   |-3.5         |-3.5         |0.0  |MATCH                           |
+|John.Smith@test.com       |-1.0         |-1.0         |0.0  |MATCH                           |
+|Neeraj.Anandh@test.com    |-8.5         |-8.5         |0.0  |MATCH                           |
+|Neeraj.Spencer@test.com   |-1.0         |-1.0         |0.0  |MATCH                           |
+|Santosh.Smith@test.com    |14.5         |14.5         |0.0  |MATCH                           |
+|Sarah.Fibonnaci@test.com  |-9.0         |-9.0         |0.0  |MATCH                           |
+|Sean.Howard@test.com      |-4.5         |-4.5         |0.0  |MATCH                           |
+|Sean.Lincoln@test.com     |-2.5         |-2.5         |0.0  |MATCH                           |
+|Senthil.Fibonnaci@test.com|-5.0         |-5.0         |0.0  |MATCH                           |
+|Spencer.Lincoln@test.com  |-11.0        |-11.0        |0.0  |MATCH                           |
+|Travis.Davis@test.com     |10.0         |10.0         |0.0  |MATCH                           |
++--------------------------+-------------+-------------+-----+--------------------------------+
+

@@ -1,0 +1,13 @@
+# Everything here is consumed inside Linux containers. Git on Windows would
+# otherwise check these out with CRLF, which breaks shebangs, Dockerfile line
+# continuations, and anything sourced by bash.
+*.sh        text eol=lf
+*.py        text eol=lf
+*.conf      text eol=lf
+*.yaml      text eol=lf
+*.yml       text eol=lf
+Dockerfile  text eol=lf
+*.cmd       text eol=crlf
+
+*.png       binary
+*.jar       binary

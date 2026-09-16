@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1260 780" width="1260" height="780" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#5b6472"/>
+    </marker>
+    <marker id="arrowAccent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#c2255c"/>
+    </marker>
+    <style>
+      .box    { fill: #ffffff; stroke: #333c48; stroke-width: 2; }
+      .spark  { fill: #fff8e8; stroke: #b8860b; stroke-width: 2.5; }
+      .topic  { fill: #f2f5f9; stroke: #5b6472; stroke-width: 1.8; }
+      .out    { fill: #fff0f5; stroke: #c2255c; stroke-width: 2; }
+      .title  { font-size: 17px; font-weight: 700; fill: #1b2129; }
+      .sub    { font-size: 12.5px; fill: #5b6472; }
+      .topicT { font-size: 15px; font-weight: 600; fill: #1b2129; font-family: Consolas, monospace; }
+      .lbl    { font-size: 12px; fill: #5b6472; }
+      .lblA   { font-size: 12px; fill: #c2255c; font-weight: 600; }
+      .flow   { stroke: #5b6472; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .flowA  { stroke: #c2255c; stroke-width: 2.4; fill: none; marker-end: url(#arrowAccent); }
+      .note   { font-size: 11.5px; fill: #7a8594; font-style: italic; }
+      .hdr    { font-size: 20px; font-weight: 700; fill: #1b2129; }
+    </style>
+  </defs>
+
+  <rect width="1260" height="780" fill="#ffffff"/>
+  <text x="40" y="44" class="hdr">STEDI fall-risk pipeline &#8212; data flow</text>
+  <text x="40" y="66" class="note">Blue = supplied by the STEDI ecosystem &#183; Amber = the Spark application built for this project &#183; Pink = the topic it creates</text>
+
+  <!-- STEDI application -->
+  <rect x="50" y="110" width="215" height="120" rx="8" class="box"/>
+  <text x="157" y="158" class="title" text-anchor="middle">STEDI</text>
+  <text x="157" y="180" class="sub" text-anchor="middle">Business Application</text>
+  <text x="157" y="200" class="sub" text-anchor="middle">localhost:4567</text>
+
+  <!-- Redis -->
+  <g>
+    <path d="M 50 505 v 95 a 107 20 0 0 0 214 0 v -95 z" class="box"/>
+    <ellipse cx="157" cy="505" rx="107" ry="20" class="box"/>
+    <text x="157" y="558" class="title" text-anchor="middle">Redis</text>
+    <text x="157" y="578" class="sub" text-anchor="middle">Customer &#183; User &#183; RapidStepTest</text>
+  </g>
+
+  <!-- redis source bridge -->
+  <rect x="320" y="505" width="180" height="95" rx="8" class="box"/>
+  <text x="410" y="540" class="title" text-anchor="middle" font-size="15">redis-source</text>
+  <text x="410" y="560" class="sub" text-anchor="middle">MONITOR &#8594; Kafka</text>
+  <text x="410" y="578" class="sub" text-anchor="middle">base64 envelope</text>
+
+  <!-- Topics -->
+  <rect x="560" y="140" width="250" height="56" rx="28" class="topic"/>
+  <text x="685" y="166" class="topicT" text-anchor="middle">stedi-events</text>
+  <text x="685" y="184" class="lbl" text-anchor="middle">{customer, score, riskDate}</text>
+
+  <rect x="560" y="520" width="250" height="56" rx="28" class="topic"/>
+  <text x="685" y="546" class="topicT" text-anchor="middle">redis-server</text>
+  <text x="685" y="564" class="lbl" text-anchor="middle">{key, zSetEntries[...]} base64</text>
+
+  <rect x="470" y="690" width="290" height="56" rx="28" class="out"/>
+  <text x="615" y="716" class="topicT" text-anchor="middle">customer-risk</text>
+  <text x="615" y="734" class="lblA" text-anchor="middle">{customer, score, email, birthYear}</text>
+
+  <!-- Spark -->
+  <rect x="900" y="270" width="310" height="230" rx="10" class="spark"/>
+  <text x="1055" y="308" class="title" text-anchor="middle">sparkpykafkajoin.py</text>
+  <text x="1055" y="332" class="sub" text-anchor="middle">Spark Structured Streaming</text>
+  <line x1="925" y1="348" x2="1185" y2="348" stroke="#b8860b" stroke-width="1"/>
+  <text x="925" y="372" class="sub">1. base64 &#215;2 decode &#8594; email + birthYear</text>
+  <text x="925" y="396" class="sub">2. parse JSON &#8594; customer + score</text>
+  <text x="925" y="420" class="sub">3. stream-stream join on email</text>
+  <text x="925" y="444" class="sub">4. to_json &#8594; Kafka sink</text>
+  <text x="925" y="476" class="note">runs on spark://spark:7077</text>
+
+  <!-- Flows -->
+  <path class="flow" d="M 265 168 H 552"/>
+  <text x="300" y="158" class="lbl">risk score published</text>
+
+  <path class="flow" d="M 200 230 V 477"/>
+  <text x="212" y="300" class="lbl">customer registered,</text>
+  <text x="212" y="318" class="lbl">step tests saved</text>
+
+  <path class="flow" d="M 264 552 H 312"/>
+  <path class="flow" d="M 500 552 H 552"/>
+  <text x="510" y="612" class="lbl" text-anchor="middle">every Redis write</text>
+
+  <path class="flow" d="M 810 168 H 860 Q 880 168 880 188 V 350 H 892"/>
+  <path class="flow" d="M 810 548 H 860 Q 880 548 880 528 V 420 H 892"/>
+
+  <path class="flowA" d="M 1055 500 V 718 H 768"/>
+  <text x="1075" y="660" class="lblA">Spark result set</text>
+
+  <path class="flowA" d="M 470 718 H 24 V 170 H 42"/>
+  <text x="300" y="672" class="lblA">consumed by the risk graph at /risk-graph.html</text>
+</svg>

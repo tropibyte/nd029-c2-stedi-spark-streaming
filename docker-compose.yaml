@@ -1,23 +1,35 @@
 #
-# This docker-compose file starts and runs:
-# * A redis server
-# * A 1-node kafka cluster
-# * A 1-zookeeper ensemble
-# * Kafka Connect with Redis Source
-# * 3 Java Applications- Trucking-Simulation, Banking-Simulation, and STEDI
-# * A Spark master
-# * A Spark worker
-
-version: '3.7'
-
+# STEDI ecosystem for the "Evaluate Human Balance with Spark Streaming" project.
+#
+# This file is a repair of the course original. Four of its nine images can no
+# longer be pulled by anyone (see ENVIRONMENT.md for the evidence and the
+# reasoning); the replacements below keep every interface the project depends on
+# identical, so all starter code and all submit scripts run unmodified.
+#
+#   redis, zookeeper, kafka ....... unchanged, original images
+#   stedi ......................... scmurdock/stedi (the course author's own
+#                                   Docker Hub copy of the same stedi.jar)
+#   redis-source .................. local replacement for the private
+#                                   kafka-connect-redis-source connector
+#   spark, spark-worker-1 ......... local Bitnami-compatible Apache Spark image
+#   banking/trucking-simulation ... dropped; private images, and neither one
+#                                   feeds this project (lesson exercises only)
+#
 services:
   redis:
     image: redis:6.0.6
+    hostname: redis
     ports:
       - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
 
   zookeeper:
     image: confluentinc/cp-zookeeper:5.5.1
+    hostname: zookeeper
     ports:
       - "2181:2181"
     environment:
@@ -25,6 +37,7 @@ services:
 
   kafka:
     image: confluentinc/cp-kafka:5.5.1
+    hostname: kafka
     ports:
       - "9092:9092"
     environment:
@@ -34,104 +47,126 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: "INTERNAL"
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT"
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: "1"
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
     depends_on:
       - "zookeeper"
+    healthcheck:
+      test: ["CMD", "kafka-topics", "--bootstrap-server", "kafka:19092", "--list"]
+      interval: 10s
+      timeout: 10s
+      retries: 30
 
-  banking-simulation:
-    image: gcr.io/simulation-images/banking-simulation
-    environment:
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-      REDIS_DB: 0
-      KAFKA_BROKER: kafka:19092
+  # One-shot: declares the three project topics up front instead of relying on
+  # auto-creation, so partition counts are deterministic across a rebuild.
+  kafka-setup:
+    image: confluentinc/cp-kafka:5.5.1
     depends_on:
-      - "kafka"
-      - "redis"
-
-  trucking-simulation:
-    image: gcr.io/simulation-images/trucking-simulation
-    environment:
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-      REDIS_DB: 0
-      KAFKA_BROKER: kafka:19092
-    depends_on:
-      - "kafka"
-      - "redis"      
+      kafka:
+        condition: service_healthy
+    entrypoint: ["/bin/bash", "-c"]
+    command:
+      - |
+        set -e
+        # --if-not-exists cannot be combined with --bootstrap-server on Kafka
+        # 2.5 (cp-kafka 5.5.1), so an existing topic is tolerated explicitly.
+        for t in redis-server stedi-events customer-risk; do
+          kafka-topics --bootstrap-server kafka:19092 --create \
+                       --topic "$$t" --partitions 1 --replication-factor 1 \
+            || echo "topic $$t already exists, leaving it alone"
+        done
+        echo "--- topics now present ---"
+        kafka-topics --bootstrap-server kafka:19092 --list
+    restart: "no"
 
   stedi:
-    image: gcr.io/simulation-images/stedi
-    ports: 
-    - "4567:4567"
+    image: scmurdock/stedi:latest
+    hostname: stedi
+    ports:
+      - "4567:4567"
     environment:
       REDIS_HOST: redis
       REDIS_PORT: 6379
       REDIS_DB: 0
       KAFKA_BROKER: kafka:19092
-      KAFKA_RISK_TOPIC: your-topic-here
+      KAFKA_RISK_TOPIC: customer-risk
+    # The rubric requires stedi-application/application.conf to declare the risk
+    # topic. Mounting it here makes that file genuinely load-bearing rather than
+    # a decorative artifact: the app reads it via Typesafe Config, with the
+    # environment variables above taking precedence (JedisClient and
+    # KafkaConsumerUtil both check System.getenv first, then fall back to conf).
+    volumes:
+      - ./stedi-application/application.conf:/opt/stedi/application.conf:ro
+    entrypoint:
+      ["java", "-Dconfig.file=/opt/stedi/application.conf", "-jar", "/stedi.jar"]
     depends_on:
-      - "kafka"
-      - "redis"      
+      kafka:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
 
-  connect:
-    image: gcr.io/simulation-images/kafka-connect-redis-source
-    ports:
-    - "8083:8083"
-    - "5005:5005"
+  # Stands in for gcr.io/simulation-images/kafka-connect-redis-source.
+  # Publishes every Redis write to the redis-server topic in the connector's
+  # own base64 envelope; see infra/redis-source/ for the contract tests.
+  redis-source:
+    image: stedi/redis-source:1.0
+    hostname: redis-source
+    build:
+      context: ./infra/redis-source
     environment:
-      CONNECT_BOOTSTRAP_SERVERS: "PLAINTEXT://kafka:19092"
-      CONNECT_GROUP_ID: "connect"
-      CONNECT_REST_ADVERTISED_HOST_NAME: "connect"
-      CONNECT_PLUGIN_PATH: "/usr/share/java"
-      CONNECT_INTERNAL_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
-      CONNECT_INTERNAL_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
-      CONNECT_KEY_CONVERTER: "org.apache.kafka.connect.converters.ByteArrayConverter"
-      CONNECT_VALUE_CONVERTER: "org.apache.kafka.connect.storage.StringConverter"
-      CONNECT_CONFIG_STORAGE_TOPIC: "connect-config"
-      CONNECT_OFFSET_STORAGE_TOPIC: "connect-offset"
-      CONNECT_STATUS_STORAGE_TOPIC: "connect-status"
-      CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: "1"
-      CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: "1"
-      CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: "1"
-      CONNECT_DEBUG: "y"
-      DEBUG_SUSPEND_FLAG: "y"
-      CLASSPATH: "/usr/share/java/kafka-connect-redis-source/*"
-
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      KAFKA_BROKER: kafka:19092
+      REDIS_TOPIC: redis-server
     depends_on:
-    - "kafka"
-    - "redis"
+      kafka:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
 
   spark:
-    image: docker.io/bitnami/spark:3-debian-10
+    image: stedi/spark:3.3.0
+    build:
+      context: ./infra/spark
+    # Must match the host part of SPARK_MASTER_URL below, otherwise the master
+    # advertises spark://<container-id>:7077 and rejects the worker.
+    hostname: spark
     environment:
       - SPARK_MODE=master
+      - SPARK_IDENT_STRING=spark
       - SPARK_RPC_AUTHENTICATION_ENABLED=no
       - SPARK_RPC_ENCRYPTION_ENABLED=no
       - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
       - SPARK_SSL_ENABLED=no
     ports:
-      - '8080:8080'
+      - "8080:8080"
+      - "4040-4045:4040-4045"
     volumes:
       - ./:/home/workspace/
-      - ./spark/jars:/opt/bitnami/spark/.ivy2 
+      - ./spark/jars:/opt/spark/.ivy2
 
   spark-worker-1:
-    image: docker.io/bitnami/spark:3-debian-10
+    image: stedi/spark:3.3.0
+    build:
+      context: ./infra/spark
+    hostname: spark-worker-1
     environment:
       - SPARK_MODE=worker
       - SPARK_MASTER_URL=spark://spark:7077
-      - SPARK_WORKER_MEMORY=1G
-      - SPARK_WORKER_CORES=1
+      # The course default of 1 core / 1G lets only a single application hold
+      # resources at a time. The project needs the join and both console
+      # validators running together, so the worker is sized for three.
+      - SPARK_WORKER_MEMORY=5G
+      - SPARK_WORKER_CORES=4
+      - SPARK_IDENT_STRING=spark
       - SPARK_RPC_AUTHENTICATION_ENABLED=no
       - SPARK_RPC_ENCRYPTION_ENABLED=no
       - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
       - SPARK_SSL_ENABLED=no
+    ports:
+      - "8081:8081"
     volumes:
       - ./:/home/workspace/
-      - ./spark/jars:/opt/bitnami/spark/.ivy2           
-
-
- 
-
-
-
+      - ./spark/jars:/opt/spark/.ivy2
+    depends_on:
+      - "spark"
