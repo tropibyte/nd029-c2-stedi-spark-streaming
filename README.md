@@ -1,40 +1,76 @@
-# Windows Users
-It is HIGHLY recommended to install the 10 October 2020 Update: https://support.microsoft.com/en-us/windows/get-the-windows-10-october-2020-update-7d20e88c-0568-483a-37bc-c3885390d212
+# STEDI — Evaluate Human Balance with Spark Streaming
 
-You will then want to install the latest version of Docker on Windows: https://docs.docker.com/docker-for-windows/install/
+Udacity Data Streaming (nd029-c2). STEDI assesses fall risk for seniors: a
+senior takes a 30-step balance test, and after four assessments the application
+produces a risk score. The product team wanted a graph of that risk by birth
+year, but the graph was shipping empty — nothing was publishing to the topic it
+subscribes to.
 
+This repository fills that gap. A Spark Structured Streaming application joins
+the customer records flowing out of Redis to the risk scores published by
+STEDI, and writes the combined record to a new Kafka topic that the graph
+consumes.
 
+![The STEDI risk graph, populated](screenshots/stedi-risk-graph-1.png)
 
-#  Using Docker for your Exercises
+![Data flow](screenshots/data-flow-diagram.png)
 
-You will need to use Docker to run the exercises on your own computer. You can find Docker for your operating system here: https://docs.docker.com/get-docker/
+## Read this first
 
-It is recommended that you configure Docker to allow it to use up to 2 cores and 6 GB of your host memory for use by the course workspace. If you are running other processes using Docker simultaneously with the workspace, you should take that into account also.
+| | |
+| --- | --- |
+| **[SOLUTION.md](SOLUTION.md)** | How the pipeline works, the two encodings, and what was done beyond the rubric |
+| **[ENVIRONMENT.md](ENVIRONMENT.md)** | Why the course Docker environment no longer starts, and what replaced it |
+| [README-starter.md](README-starter.md) | Udacity's original starter README, preserved unmodified |
 
+## Heads-up: the course environment is broken upstream
 
+Four of the nine images in the original `docker-compose.yaml` **can no longer be
+pulled by anyone**:
 
-The docker-compose file at the root of the repository creates 9 separate containers:
+* `gcr.io/simulation-images/*` — the STEDI application, the Kafka Connect Redis
+  source, and both simulations. The registry now refuses anonymous requests.
+* `bitnami/spark:3-debian-10` — deleted when Bitnami withdrew its legacy
+  Docker Hub catalogue in 2025.
 
-- Redis
-- Zookeeper (for Kafka)
-- Kafka
-- Banking Simulation
-- Trucking Simulation
-- STEDI (Application used in Final Project)
-- Kafka Connect with Redis Source Connector
-- Spark Master
-- Spark Worker
+They have been replaced with documented, reproducible substitutes that keep
+every interface identical, so all of the starter code and every `submit-*.sh`
+script runs unmodified. The Redis source connector was reimplemented from
+scratch (nothing public replaces it — every `kafka-connect-redis` image on
+Docker Hub is a *sink*), with contract tests asserting its output against the
+payload printed in Udacity's own README.
 
-It also mounts your repository folder to the Spark Master and Spark Worker containers as a volume  `/home/workspace`, making your code changes instantly available within to the containers running Spark.
+If you are taking this course and landed here because `docker-compose up`
+failed, [ENVIRONMENT.md](ENVIRONMENT.md) is the file you want.
 
-Let's get these containers started!
+## Quickstart
+
+```bash
+docker compose up -d                          # builds the two local images on first run
+curl -X POST http://localhost:4567/simulation # start the simulated population
+```
+
+STEDI creates 30 customers immediately and begins publishing risk scores about
+four minutes later, once each has four assessments on file.
+
+```bash
+bash project/starter/submit-event-kafkajoin.sh          # the deliverable
+bash project/starter/submit-redis-kafka-streaming.sh    # validator: birth years
+bash project/starter/submit-event-kafkastreaming.sh     # validator: risk scores
+bash project/starter/submit-optional-calculate-score.sh # recompute risk independently
+bash project/starter/submit-optional-risk-quality.sh    # audit STEDI's score
+```
+
+* Risk graph — <http://localhost:4567/risk-graph.html>
+* Spark master UI — <http://localhost:8080>
+
+## Layout
 
 ```
-cd [repositoryfolder]
-docker-compose up
-```
-
-You should see 9 containers when you run this command:
-```
-docker ps
+project/starter/      the five Spark applications and their submit scripts
+stedi-application/    application.conf, mounted into the STEDI container
+infra/spark/          Apache Spark 3.3.0 in a Bitnami-compatible layout
+infra/redis-source/   Redis MONITOR -> Kafka bridge, plus its contract tests
+spark/logs/           driver logs, and the Spark master/worker daemon logs
+screenshots/          the populated graph, the cluster UI, the data flow diagram
 ```
