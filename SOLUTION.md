@@ -70,10 +70,31 @@ The sink payload is exactly the documented contract, and exactly what
 safe here because Chart.js 2.9 coerces scale values with a unary `+`, so the
 string plots as a number — verified in the bundled `Chart.js`, not assumed.
 
-The topic name comes from `stedi-application/application.conf`
-(`kafka.riskTopic=customer-risk`), which is mounted into the STEDI container and
-loaded with `-Dconfig.file`, so the producer and the consumer are configured from
-the same file.
+**On the key casing:** one sample in the project instructions writes `"Score"`
+with a capital S, while the starter README and the payload here use `"score"`.
+Lower case is the correct one: `risk-graph.js` reads `customerRisk.score`, so a
+capitalised key would leave the y value `undefined` and plot nothing at all.
+
+The topic is **read at run time** from `stedi-application/application.conf`
+rather than hard-coded — `risk_topic_from_conf()` pulls `kafka.riskTopic` out of
+the same file that is mounted into the STEDI container and tells the application
+what to subscribe to. Producer and consumer therefore cannot drift apart. The
+resolved value is echoed into the log so it can be checked:
+
+```
+sinking joined risk scores to Kafka topic 'customer-risk' (read from /home/workspace/stedi-application/application.conf)
+```
+
+### Known limitation: the join state is unbounded
+
+The stream-stream join carries no watermark, so its state grows without limit.
+That is a deliberate trade rather than an omission. A customer is written to
+Redis exactly once, at registration, and can go on being scored indefinitely
+afterwards — so any time-bounded join would eventually evict the customer record
+and silently stop matching that customer's later risk scores, which is a worse
+failure than unbounded state. The right production fix is not a watermark but a
+change of shape: the customer side belongs in a lookup table joined against the
+risk stream, at which point the streaming state becomes bounded naturally.
 
 ## Going past the rubric
 
@@ -95,26 +116,38 @@ tests are therefore accumulated to Parquet and ranked on that static view inside
 `foreachBatch`, which also keeps the plan flat instead of growing a union
 lineage batch after batch.
 
-`sparkpyoptionalriskquality.py` then puts the two side by side. Every customer
-agrees to the decimal:
+`sparkpyoptionalriskquality.py` then puts the two side by side. Across the three
+comparison batches in `spark/logs/optional-quality.log`, **80 of the 84 rows
+match STEDI exactly**, and the remaining 4 differ by between 0.5 and 2.0 with
+the sign intact:
 
 ```
-+--------------------------+-------------+-------------+-----+-------+
-|email                     |reportedScore|computedScore|delta|verdict|
-+--------------------------+-------------+-------------+-----+-------+
-|Ashley.Fibonnaci@test.com |26.5         |26.5         |0.0  |MATCH  |
-|David.Anderson@test.com   |33.5         |33.5         |0.0  |MATCH  |
-|Jerry.Abram@test.com      |-19.0        |-19.0        |0.0  |MATCH  |
-|Neeraj.Anandh@test.com    |30.0         |30.0         |0.0  |MATCH  |
-...
++--------------------------+-------------+-------------+-----+--------------------------------+
+|email                     |reportedScore|computedScore|delta|verdict                         |
++--------------------------+-------------+-------------+-----+--------------------------------+
+|Ashley.Fibonnaci@test.com |26.5         |26.5         |0.0  |MATCH                           |
+|David.Anderson@test.com   |33.5         |33.5         |0.0  |MATCH                           |
+|Neeraj.Anandh@test.com    |30.0         |30.0         |0.0  |MATCH                           |
+|Jerry.Abram@test.com      |-18.5        |-19.0        |0.5  |same direction, different window|
+|Ashley.Olson@test.com     |-5.5         |-3.5         |-2.0 |same direction, different window|
 ```
 
-One caveat is worth stating because it shapes how that table should be read:
-STEDI scores a customer against the four tests on file *at the moment the
-assessment completes*, while this script always scores the four most recent. A
-customer still testing can legitimately disagree; one who has stopped converges
-to an exact match. The verdict column distinguishes the two cases rather than
-calling a window difference a defect.
+Those four are not a defect, in either implementation. STEDI scores a customer
+against the four tests on file *at the moment the assessment completes*, while
+this script always scores the four most recent. A customer who is still testing
+has had their window move between the two measurements; a customer who has
+stopped converges to an exact match. That is why the verdict column separates
+"the number is wrong" from "we measured different windows" instead of reporting
+a bare pass/fail — and why every disagreement here is small and same-signed
+rather than arbitrary.
+
+### The sink output is captured, not just asserted
+
+A Kafka sink prints nothing, so `kafkajoin.log` shows that the job ran but not
+what it wrote. `spark/logs/customer-risk-sample.log` holds the payload itself,
+read back off the topic the graph subscribes to — 3,000 messages covering 81
+distinct customers, reduced to the first row per customer so the spread of birth
+years and scores is visible.
 
 ### The environment itself
 
@@ -177,3 +210,9 @@ shows the applications running on the cluster, is at <http://localhost:8080>.
 | Spark master + worker logs | `spark/logs/spark-spark-org.apache.spark.deploy.*.out` |
 | `stedi-application/application.conf` | `stedi-application/application.conf` |
 | Two screenshots of the working graph | `screenshots/stedi-risk-graph-1.png`, `screenshots/stedi-risk-graph-2.png` |
+
+Supporting evidence beyond the required list: `spark/logs/customer-risk-sample.log`
+(what the sink actually wrote), `spark/logs/optional-score.log` and
+`spark/logs/optional-quality.log` (the two optional extras),
+`screenshots/spark-cluster-applications.png` (the jobs running on the standalone
+cluster) and `screenshots/stedi-risk-graph-3.png`.

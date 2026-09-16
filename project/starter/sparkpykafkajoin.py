@@ -14,9 +14,11 @@ publish the result for the STEDI risk graph.
                                                     v
                                       STEDI risk graph at :4567
 
-The sink topic name is the one declared in stedi-application/application.conf
-(kafka.riskTopic=customer-risk), which is mounted into the STEDI container, so
-the producer and the consumer are configured from the same file.
+The sink topic is not hard-coded: it is read at startup from
+stedi-application/application.conf, the same file that is mounted into the
+STEDI container and tells the application which topic to subscribe to. The
+graph only renders rows on the topic STEDI is listening to, so driving both
+ends from one file removes the chance of them drifting apart.
 
 Output payload, as consumed by public/risk-graph.js (which plots
 customerRisk.birthYear on x and customerRisk.score on y):
@@ -26,8 +28,23 @@ customerRisk.birthYear on x and customerRisk.score on y):
      "email":"Santosh.Fibonnaci@test.com",
      "birthYear":"1963"}
 
+Note the lower-case "score". One sample in the project instructions capitalises
+it as "Score", but risk-graph.js reads `customerRisk.score`, so a capitalised
+key would leave the y value undefined and plot nothing. Lower case is what the
+consumer actually requires.
+
+Known limitation: the stream-stream join below carries no watermark, so its
+state grows without bound. That is deliberate rather than an oversight -- a
+customer is written to Redis exactly once, at registration, and can be scored
+indefinitely afterwards, so any time-bounded join would eventually evict the
+customer record and silently stop matching that customer's later risk scores.
+For a production deployment the customer side belongs in a lookup table rather
+than a stream, which is what would let the join be bounded.
+
 Submit with: project/starter/submit-event-kafkajoin.sh
 """
+import re
+
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import from_json, to_json, col, unbase64, base64, split, expr
 from pyspark.sql.types import StructField, StructType, StringType, BooleanType, ArrayType, DateType, FloatType
@@ -72,6 +89,39 @@ stediEventsSchema = StructType([
     StructField("score", FloatType()),
     StructField("riskDate", StringType())
 ])
+
+STEDI_CONF = "/home/workspace/stedi-application/application.conf"
+
+
+def risk_topic_from_conf(path=STEDI_CONF, default="customer-risk"):
+    """
+    Resolve the sink topic from the STEDI application's own configuration.
+
+    application.conf is HOCON, so rather than pull in a parser this matches the
+    riskTopic key inside the kafka block and nothing else -- narrow enough that
+    a redis or suresteps block cannot satisfy it. Falls back to the documented
+    default if the file is missing, so the job still runs outside the compose
+    environment.
+    """
+    try:
+        with open(path) as handle:
+            text = handle.read()
+    except OSError:
+        print("WARN: %s unreadable, falling back to topic %r" % (path, default))
+        return default
+    match = re.search(
+        r"kafka\s*\{[^}]*?\briskTopic\s*[=:]\s*\"?([A-Za-z0-9._-]+)\"?",
+        text, re.DOTALL
+    )
+    if not match:
+        print("WARN: no kafka.riskTopic in %s, falling back to %r" % (path, default))
+        return default
+    return match.group(1)
+
+
+RISK_TOPIC = risk_topic_from_conf()
+print("sinking joined risk scores to Kafka topic %r (read from %s)"
+      % (RISK_TOPIC, STEDI_CONF))
 
 spark = SparkSession.builder.appName("stedi-risk-score-by-birth-year").getOrCreate()
 spark.sparkContext.setLogLevel("WARN")
@@ -208,7 +258,7 @@ riskScoreByBirthYearJSON = riskScoreByBirthYear.select(
     .writeStream
     .format("kafka")
     .option("kafka.bootstrap.servers", "kafka:19092")
-    .option("topic", "customer-risk")
+    .option("topic", RISK_TOPIC)
     .option("checkpointLocation", "/home/workspace/spark/checkpoints/kafkajoin")
     .outputMode("append")
     .start()

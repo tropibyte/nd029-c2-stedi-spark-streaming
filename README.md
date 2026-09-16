@@ -40,6 +40,11 @@ scratch (nothing public replaces it — every `kafka-connect-redis` image on
 Docker Hub is a *sink*), with contract tests asserting its output against the
 payload printed in Udacity's own README.
 
+One consequence to expect: `docker ps` shows **seven** containers, not the nine
+the course setup page describes. The banking and trucking simulations are gone
+with the same registry, and neither feeds this project — they only drive the
+lesson exercises. A `kafka-setup` one-shot is added to declare the topics.
+
 If you are taking this course and landed here because `docker-compose up`
 failed, [ENVIRONMENT.md](ENVIRONMENT.md) is the file you want.
 
