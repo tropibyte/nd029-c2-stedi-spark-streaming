@@ -7,9 +7,15 @@
 #   docker compose exec -T kafka kafka-console-consumer \
 #       --bootstrap-server kafka:19092 --topic customer-risk --from-beginning
 #
-# 3000 messages were read, covering 81 distinct customers. Listed below is
-# the first message for each, so the sample shows the spread of birth years and
-# scores that reaches the graph rather than one customer's repeated re-scorings.
+# 3000 messages were read, covering 81 distinct customers. Listed below is the first
+# message for each, so the sample shows the spread of birth years and scores that
+# reaches the graph rather than one customer's repeated re-scorings.
+#
+# On the count: one simulation round creates 30 customers, but the round was
+# triggered several times while building this, so Redis ended up holding 108. Of
+# those, 81 appear here -- a customer has no risk score at all until four
+# assessments are on file, so the ones registered most recently are not yet scored.
+#
 # Captured 2026-09-16T22:53:47Z.
 
 {"customer":"Neeraj.Spencer@test.com","score":"-3.0","email":"Neeraj.Spencer@test.com","birthYear":"1955"}

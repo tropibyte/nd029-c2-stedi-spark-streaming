@@ -91,3 +91,10 @@ Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
 26/09/16 22:55:13 INFO Master: spark:44033 got disassociated, removing it.
 26/09/16 22:55:13 INFO Master: Removing app app-20260916225207-0009
 26/09/16 22:55:13 WARN Master: Got status update for unknown executor app-20260916225207-0009/0
+26/09/16 23:22:35 INFO Master: Registering app stedi-risk-score-by-birth-year
+26/09/16 23:22:35 INFO Master: Registered app stedi-risk-score-by-birth-year with ID app-20260916232235-0010
+26/09/16 23:22:35 INFO Master: Launching executor app-20260916232235-0010/0 on worker worker-20260916185327-172.18.0.6-33449
+26/09/16 23:23:39 INFO Master: 172.18.0.4:58634 got disassociated, removing it.
+26/09/16 23:23:39 INFO Master: spark:32875 got disassociated, removing it.
+26/09/16 23:23:39 INFO Master: Removing app app-20260916232235-0010
+26/09/16 23:23:40 WARN Master: Got status update for unknown executor app-20260916232235-0010/0

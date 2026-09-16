@@ -93,15 +93,37 @@ stediEventsSchema = StructType([
 STEDI_CONF = "/home/workspace/stedi-application/application.conf"
 
 
+def _config_block(text, name):
+    """
+    Return the body of a top-level `name { ... }` block from HOCON text.
+
+    Brace-matched rather than regex-delimited. A pattern like `name\\s*\\{[^}]*?`
+    stops dead at the first closing brace, so any nested block sitting before
+    the key being looked for would hide it; counting depth reads the real extent
+    of the block instead.
+    """
+    opening = re.search(r"\b" + re.escape(name) + r"\s*\{", text)
+    if not opening:
+        return None
+    start = opening.end()
+    depth = 0
+    for i in range(start - 1, len(text)):
+        if text[i] == "{":
+            depth += 1
+        elif text[i] == "}":
+            depth -= 1
+            if depth == 0:
+                return text[start:i]
+    return None  # unbalanced braces
+
+
 def risk_topic_from_conf(path=STEDI_CONF, default="customer-risk"):
     """
     Resolve the sink topic from the STEDI application's own configuration.
 
-    application.conf is HOCON, so rather than pull in a parser this matches the
-    riskTopic key inside the kafka block and nothing else -- narrow enough that
-    a redis or suresteps block cannot satisfy it. Falls back to the documented
-    default if the file is missing, so the job still runs outside the compose
-    environment.
+    Scoped to the kafka block, so a riskTopic key in some other block cannot
+    satisfy it. Falls back to the documented default when the file is missing or
+    the key is absent, so the job still runs outside the compose environment.
     """
     try:
         with open(path) as handle:
@@ -109,10 +131,13 @@ def risk_topic_from_conf(path=STEDI_CONF, default="customer-risk"):
     except OSError:
         print("WARN: %s unreadable, falling back to topic %r" % (path, default))
         return default
-    match = re.search(
-        r"kafka\s*\{[^}]*?\briskTopic\s*[=:]\s*\"?([A-Za-z0-9._-]+)\"?",
-        text, re.DOTALL
-    )
+
+    block = _config_block(text, "kafka")
+    if block is None:
+        print("WARN: no kafka block in %s, falling back to %r" % (path, default))
+        return default
+
+    match = re.search(r"\briskTopic\s*[=:]\s*\"?([A-Za-z0-9._-]+)\"?", block)
     if not match:
         print("WARN: no kafka.riskTopic in %s, falling back to %r" % (path, default))
         return default

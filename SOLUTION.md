@@ -85,6 +85,20 @@ resolved value is echoed into the log so it can be checked:
 sinking joined risk scores to Kafka topic 'customer-risk' (read from /home/workspace/stedi-application/application.conf)
 ```
 
+That parse is worth testing, because a silent fall-back to the default while the
+config said otherwise would publish to a topic the graph is not listening to and
+leave it mysteriously empty. `infra/tests/test_risk_topic_conf.py` covers the
+real config, a missing file, a `riskTopic` planted in another block, a nested
+block sitting before the key, and unbalanced braces:
+
+```bash
+docker compose exec -T spark python3 /home/workspace/infra/tests/test_risk_topic_conf.py
+```
+
+The block is brace-matched rather than regex-delimited for that fourth case: a
+pattern that stops at the first `}` would be hidden by any nested block placed
+above the key.
+
 ### Known limitation: the join state is unbounded
 
 The stream-stream join carries no watermark, so its state grows without limit.
