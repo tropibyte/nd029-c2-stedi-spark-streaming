@@ -44,10 +44,19 @@ than a stream, which is what would let the join be bounded.
 Submit with: project/starter/submit-event-kafkajoin.sh
 """
 import re
+import sys
 
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import from_json, to_json, col, unbase64, base64, split, expr
 from pyspark.sql.types import StructField, StructType, StringType, BooleanType, ArrayType, DateType, FloatType
+
+# Python block-buffers stdout when it is a pipe, which is exactly what the
+# submit script does with `| tee`. Without this the batch progress printed below
+# sits in the process buffer instead of reaching kafkajoin.log -- and is lost
+# entirely if the job is killed rather than stopped. Spark's own JVM logging is
+# unaffected, which is why the log otherwise looks healthy while the Python
+# lines are missing.
+sys.stdout.reconfigure(line_buffering=True)
 
 # ---------------------------------------------------------------------------
 # Schemas. Spark cannot infer a schema for a streaming source, so all three are
@@ -166,6 +175,10 @@ redisServerRawStreamingDF = (
     .option("subscribe", "redis-server")
     .option("startingOffsets", "earliest")
     .option("failOnDataLoss", "false")
+    # Bound the batch size. Without this, reading from earliest makes the very
+    # first batch swallow the entire backlog, which can take minutes to commit
+    # and reports no progress at all while it runs.
+    .option("maxOffsetsPerTrigger", "2000")
     .load()
 )
 
@@ -187,8 +200,16 @@ redisServerStreamingDF = redisServerRawStreamingDF.selectExpr(
 
 # Taking the 0th element of an array is much simpler in SQL against a view than
 # through the DataFrame API.
+#
+# The envelope's `key` is the base64 of the Redis key name, so decoding it and
+# keeping only the Customer sorted set states the intent directly. Relying on
+# the null filter further down would work today only because User and
+# RapidStepTest happen to lack an email/birthDay pair -- a future sorted set
+# carrying both would quietly leak into the join.
 zSetEntriesEncodedStreamingDF = spark.sql(
-    "select key, zSetEntries[0].element as encodedCustomer from RedisSortedSet"
+    "select key, zSetEntries[0].element as encodedCustomer "
+    "from RedisSortedSet "
+    "where cast(unbase64(key) as string) = 'Customer'"
 )
 
 # unbase64 yields binary, so cast back to a string to recover the customer JSON.
@@ -229,6 +250,7 @@ stediEventsRawStreamingDF = (
     .option("subscribe", "stedi-events")
     .option("startingOffsets", "earliest")
     .option("failOnDataLoss", "false")
+    .option("maxOffsetsPerTrigger", "2000")
     .load()
 )
 
@@ -276,9 +298,7 @@ riskScoreByBirthYearJSON = riskScoreByBirthYear.select(
     ).alias("value")
 )
 
-# awaitTermination() is what keeps the application running continuously rather
-# than exiting once the first batch is written.
-(
+riskScoreQuery = (
     riskScoreByBirthYearJSON
     .writeStream
     .format("kafka")
@@ -287,5 +307,48 @@ riskScoreByBirthYearJSON = riskScoreByBirthYear.select(
     .option("checkpointLocation", "/home/workspace/spark/checkpoints/kafkajoin")
     .outputMode("append")
     .start()
-    .awaitTermination()
 )
+
+# A Kafka sink prints nothing per batch, so a bare awaitTermination() would
+# leave this log recording that the job started and then falling silent -- no
+# evidence that rows are actually moving. Polling the query's own progress
+# instead reports each batch as it commits.
+#
+# This is still awaitTermination keeping the application alive: the timeout
+# argument makes it return periodically so progress can be printed, and the
+# loop exits only when the query is no longer active, i.e. when the application
+# is killed. It is not a bounded run.
+PROGRESS_INTERVAL_SECONDS = 15
+lastReportedBatch = -1
+secondsWaited = 0
+
+while riskScoreQuery.isActive:
+    riskScoreQuery.awaitTermination(PROGRESS_INTERVAL_SECONDS)
+    progress = riskScoreQuery.lastProgress
+    if not progress:
+        # lastProgress stays None until the first batch commits; say so rather
+        # than leaving the log silent.
+        secondsWaited += PROGRESS_INTERVAL_SECONDS
+        print("waiting for the first batch to commit (%ds)" % secondsWaited)
+        continue
+    batchId = progress.get("batchId")
+    if batchId == lastReportedBatch:
+        continue  # no new batch committed since the last report
+    lastReportedBatch = batchId
+
+    rate = progress.get("processedRowsPerSecond") or 0.0
+    # stateOperators carries the join's state store size, which is what makes
+    # the unbounded-state note in the docstring observable rather than abstract.
+    stateOperators = progress.get("stateOperators") or []
+    stateRows = stateOperators[0].get("numRowsTotal", "n/a") if stateOperators else "n/a"
+
+    print("batch %s -> %s input rows, %s rows written to %s, %.1f rows/s, "
+          "join state holds %s rows"
+          % (batchId,
+             progress.get("numInputRows"),
+             (progress.get("sink") or {}).get("numOutputRows", "n/a"),
+             RISK_TOPIC,
+             rate,
+             stateRows))
+
+print("query terminated: %s" % (riskScoreQuery.exception() or "stopped cleanly"))

@@ -189,3 +189,78 @@ Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
 26/09/16 23:23:40 INFO ExternalShuffleBlockResolver: Executor is not registered (appId=app-20260916232235-0010, execId=0)
 26/09/16 23:23:40 INFO ExternalShuffleBlockResolver: Application app-20260916232235-0010 removed, cleanupLocalDirs = true
 26/09/16 23:23:40 INFO Worker: Cleaning up local directories for application app-20260916232235-0010
+26/09/16 23:33:35 INFO Worker: Asked to launch executor app-20260916233335-0011/0 for stedi-risk-score-by-birth-year
+26/09/16 23:33:35 INFO SecurityManager: Changing view acls to: root
+26/09/16 23:33:35 INFO SecurityManager: Changing modify acls to: root
+26/09/16 23:33:35 INFO SecurityManager: Changing view acls groups to: 
+26/09/16 23:33:35 INFO SecurityManager: Changing modify acls groups to: 
+26/09/16 23:33:35 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(root); groups with view permissions: Set(); users  with modify permissions: Set(root); groups with modify permissions: Set()
+26/09/16 23:33:35 INFO ExecutorRunner: Launch command: "/usr/local/openjdk-11/bin/java" "-cp" "/opt/spark/conf:/opt/spark/jars/*" "-Xmx1024M" "-Dspark.driver.port=39489" "-XX:+IgnoreUnrecognizedVMOptions" "--add-opens=java.base/java.lang=ALL-UNNAMED" "--add-opens=java.base/java.lang.invoke=ALL-UNNAMED" "--add-opens=java.base/java.lang.reflect=ALL-UNNAMED" "--add-opens=java.base/java.io=ALL-UNNAMED" "--add-opens=java.base/java.net=ALL-UNNAMED" "--add-opens=java.base/java.nio=ALL-UNNAMED" "--add-opens=java.base/java.util=ALL-UNNAMED" "--add-opens=java.base/java.util.concurrent=ALL-UNNAMED" "--add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED" "--add-opens=java.base/sun.nio.ch=ALL-UNNAMED" "--add-opens=java.base/sun.nio.cs=ALL-UNNAMED" "--add-opens=java.base/sun.security.action=ALL-UNNAMED" "--add-opens=java.base/sun.util.calendar=ALL-UNNAMED" "--add-opens=java.security.jgss/sun.security.krb5=ALL-UNNAMED" "org.apache.spark.executor.CoarseGrainedExecutorBackend" "--driver-url" "spark://CoarseGrainedScheduler@spark:39489" "--executor-id" "0" "--hostname" "172.18.0.6" "--cores" "1" "--app-id" "app-20260916233335-0011" "--worker-url" "spark://Worker@172.18.0.6:33449"
+26/09/16 23:39:15 INFO Worker: Asked to kill executor app-20260916233335-0011/0
+26/09/16 23:39:15 INFO ExecutorRunner: Runner thread for executor app-20260916233335-0011/0 interrupted
+26/09/16 23:39:15 INFO ExecutorRunner: Killing process!
+26/09/16 23:39:16 INFO Worker: Executor app-20260916233335-0011/0 finished with state KILLED exitStatus 143
+26/09/16 23:39:16 INFO ExternalShuffleBlockResolver: Clean up non-shuffle and non-RDD files associated with the finished executor 0
+26/09/16 23:39:16 INFO ExternalShuffleBlockResolver: Executor is not registered (appId=app-20260916233335-0011, execId=0)
+26/09/16 23:39:16 INFO ExternalShuffleBlockResolver: Application app-20260916233335-0011 removed, cleanupLocalDirs = true
+26/09/16 23:39:16 INFO Worker: Cleaning up local directories for application app-20260916233335-0011
+26/09/16 23:39:37 INFO Worker: Asked to launch executor app-20260916233937-0012/0 for stedi-risk-score-by-birth-year
+26/09/16 23:39:37 INFO SecurityManager: Changing view acls to: root
+26/09/16 23:39:37 INFO SecurityManager: Changing modify acls to: root
+26/09/16 23:39:37 INFO SecurityManager: Changing view acls groups to: 
+26/09/16 23:39:37 INFO SecurityManager: Changing modify acls groups to: 
+26/09/16 23:39:37 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(root); groups with view permissions: Set(); users  with modify permissions: Set(root); groups with modify permissions: Set()
+26/09/16 23:39:37 INFO ExecutorRunner: Launch command: "/usr/local/openjdk-11/bin/java" "-cp" "/opt/spark/conf:/opt/spark/jars/*" "-Xmx1024M" "-Dspark.driver.port=36187" "-XX:+IgnoreUnrecognizedVMOptions" "--add-opens=java.base/java.lang=ALL-UNNAMED" "--add-opens=java.base/java.lang.invoke=ALL-UNNAMED" "--add-opens=java.base/java.lang.reflect=ALL-UNNAMED" "--add-opens=java.base/java.io=ALL-UNNAMED" "--add-opens=java.base/java.net=ALL-UNNAMED" "--add-opens=java.base/java.nio=ALL-UNNAMED" "--add-opens=java.base/java.util=ALL-UNNAMED" "--add-opens=java.base/java.util.concurrent=ALL-UNNAMED" "--add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED" "--add-opens=java.base/sun.nio.ch=ALL-UNNAMED" "--add-opens=java.base/sun.nio.cs=ALL-UNNAMED" "--add-opens=java.base/sun.security.action=ALL-UNNAMED" "--add-opens=java.base/sun.util.calendar=ALL-UNNAMED" "--add-opens=java.security.jgss/sun.security.krb5=ALL-UNNAMED" "org.apache.spark.executor.CoarseGrainedExecutorBackend" "--driver-url" "spark://CoarseGrainedScheduler@spark:36187" "--executor-id" "0" "--hostname" "172.18.0.6" "--cores" "1" "--app-id" "app-20260916233937-0012" "--worker-url" "spark://Worker@172.18.0.6:33449"
+26/09/16 23:46:44 INFO Worker: Asked to kill executor app-20260916233937-0012/0
+26/09/16 23:46:44 INFO ExecutorRunner: Runner thread for executor app-20260916233937-0012/0 interrupted
+26/09/16 23:46:44 INFO ExecutorRunner: Killing process!
+26/09/16 23:46:44 INFO Worker: Executor app-20260916233937-0012/0 finished with state KILLED exitStatus 143
+26/09/16 23:46:44 INFO ExternalShuffleBlockResolver: Clean up non-shuffle and non-RDD files associated with the finished executor 0
+26/09/16 23:46:44 INFO ExternalShuffleBlockResolver: Executor is not registered (appId=app-20260916233937-0012, execId=0)
+26/09/16 23:46:44 INFO ExternalShuffleBlockResolver: Application app-20260916233937-0012 removed, cleanupLocalDirs = true
+26/09/16 23:46:44 INFO Worker: Cleaning up local directories for application app-20260916233937-0012
+26/09/16 23:47:22 INFO Worker: Asked to launch executor app-20260916234722-0013/0 for stedi-risk-score-by-birth-year
+26/09/16 23:47:22 INFO SecurityManager: Changing view acls to: root
+26/09/16 23:47:22 INFO SecurityManager: Changing modify acls to: root
+26/09/16 23:47:22 INFO SecurityManager: Changing view acls groups to: 
+26/09/16 23:47:22 INFO SecurityManager: Changing modify acls groups to: 
+26/09/16 23:47:22 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(root); groups with view permissions: Set(); users  with modify permissions: Set(root); groups with modify permissions: Set()
+26/09/16 23:47:22 INFO ExecutorRunner: Launch command: "/usr/local/openjdk-11/bin/java" "-cp" "/opt/spark/conf:/opt/spark/jars/*" "-Xmx1024M" "-Dspark.driver.port=44467" "-XX:+IgnoreUnrecognizedVMOptions" "--add-opens=java.base/java.lang=ALL-UNNAMED" "--add-opens=java.base/java.lang.invoke=ALL-UNNAMED" "--add-opens=java.base/java.lang.reflect=ALL-UNNAMED" "--add-opens=java.base/java.io=ALL-UNNAMED" "--add-opens=java.base/java.net=ALL-UNNAMED" "--add-opens=java.base/java.nio=ALL-UNNAMED" "--add-opens=java.base/java.util=ALL-UNNAMED" "--add-opens=java.base/java.util.concurrent=ALL-UNNAMED" "--add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED" "--add-opens=java.base/sun.nio.ch=ALL-UNNAMED" "--add-opens=java.base/sun.nio.cs=ALL-UNNAMED" "--add-opens=java.base/sun.security.action=ALL-UNNAMED" "--add-opens=java.base/sun.util.calendar=ALL-UNNAMED" "--add-opens=java.security.jgss/sun.security.krb5=ALL-UNNAMED" "org.apache.spark.executor.CoarseGrainedExecutorBackend" "--driver-url" "spark://CoarseGrainedScheduler@spark:44467" "--executor-id" "0" "--hostname" "172.18.0.6" "--cores" "1" "--app-id" "app-20260916234722-0013" "--worker-url" "spark://Worker@172.18.0.6:33449"
+26/09/16 23:55:30 INFO Worker: Asked to launch executor app-20260916235530-0014/0 for stedi-optional-bounded-join
+26/09/16 23:55:30 INFO SecurityManager: Changing view acls to: root
+26/09/16 23:55:30 INFO SecurityManager: Changing modify acls to: root
+26/09/16 23:55:30 INFO SecurityManager: Changing view acls groups to: 
+26/09/16 23:55:30 INFO SecurityManager: Changing modify acls groups to: 
+26/09/16 23:55:30 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(root); groups with view permissions: Set(); users  with modify permissions: Set(root); groups with modify permissions: Set()
+26/09/16 23:55:30 INFO ExecutorRunner: Launch command: "/usr/local/openjdk-11/bin/java" "-cp" "/opt/spark/conf:/opt/spark/jars/*" "-Xmx1024M" "-Dspark.driver.port=39991" "-XX:+IgnoreUnrecognizedVMOptions" "--add-opens=java.base/java.lang=ALL-UNNAMED" "--add-opens=java.base/java.lang.invoke=ALL-UNNAMED" "--add-opens=java.base/java.lang.reflect=ALL-UNNAMED" "--add-opens=java.base/java.io=ALL-UNNAMED" "--add-opens=java.base/java.net=ALL-UNNAMED" "--add-opens=java.base/java.nio=ALL-UNNAMED" "--add-opens=java.base/java.util=ALL-UNNAMED" "--add-opens=java.base/java.util.concurrent=ALL-UNNAMED" "--add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED" "--add-opens=java.base/sun.nio.ch=ALL-UNNAMED" "--add-opens=java.base/sun.nio.cs=ALL-UNNAMED" "--add-opens=java.base/sun.security.action=ALL-UNNAMED" "--add-opens=java.base/sun.util.calendar=ALL-UNNAMED" "--add-opens=java.security.jgss/sun.security.krb5=ALL-UNNAMED" "org.apache.spark.executor.CoarseGrainedExecutorBackend" "--driver-url" "spark://CoarseGrainedScheduler@spark:39991" "--executor-id" "0" "--hostname" "172.18.0.6" "--cores" "1" "--app-id" "app-20260916235530-0014" "--worker-url" "spark://Worker@172.18.0.6:33449"
+26/09/16 23:56:44 INFO Worker: Asked to launch executor app-20260916235644-0015/0 for stedi-redis-customer-birthyear
+26/09/16 23:56:44 INFO SecurityManager: Changing view acls to: root
+26/09/16 23:56:44 INFO SecurityManager: Changing modify acls to: root
+26/09/16 23:56:44 INFO SecurityManager: Changing view acls groups to: 
+26/09/16 23:56:44 INFO SecurityManager: Changing modify acls groups to: 
+26/09/16 23:56:44 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(root); groups with view permissions: Set(); users  with modify permissions: Set(root); groups with modify permissions: Set()
+26/09/16 23:56:44 INFO ExecutorRunner: Launch command: "/usr/local/openjdk-11/bin/java" "-cp" "/opt/spark/conf:/opt/spark/jars/*" "-Xmx1024M" "-Dspark.driver.port=43285" "-XX:+IgnoreUnrecognizedVMOptions" "--add-opens=java.base/java.lang=ALL-UNNAMED" "--add-opens=java.base/java.lang.invoke=ALL-UNNAMED" "--add-opens=java.base/java.lang.reflect=ALL-UNNAMED" "--add-opens=java.base/java.io=ALL-UNNAMED" "--add-opens=java.base/java.net=ALL-UNNAMED" "--add-opens=java.base/java.nio=ALL-UNNAMED" "--add-opens=java.base/java.util=ALL-UNNAMED" "--add-opens=java.base/java.util.concurrent=ALL-UNNAMED" "--add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED" "--add-opens=java.base/sun.nio.ch=ALL-UNNAMED" "--add-opens=java.base/sun.nio.cs=ALL-UNNAMED" "--add-opens=java.base/sun.security.action=ALL-UNNAMED" "--add-opens=java.base/sun.util.calendar=ALL-UNNAMED" "--add-opens=java.security.jgss/sun.security.krb5=ALL-UNNAMED" "org.apache.spark.executor.CoarseGrainedExecutorBackend" "--driver-url" "spark://CoarseGrainedScheduler@spark:43285" "--executor-id" "0" "--hostname" "172.18.0.6" "--cores" "1" "--app-id" "app-20260916235644-0015" "--worker-url" "spark://Worker@172.18.0.6:33449"
+26/09/16 23:57:45 INFO Worker: Asked to kill executor app-20260916235530-0014/0
+26/09/16 23:57:45 INFO ExecutorRunner: Runner thread for executor app-20260916235530-0014/0 interrupted
+26/09/16 23:57:45 INFO ExecutorRunner: Killing process!
+26/09/16 23:57:45 INFO Worker: Executor app-20260916235530-0014/0 finished with state KILLED exitStatus 143
+26/09/16 23:57:45 INFO ExternalShuffleBlockResolver: Clean up non-shuffle and non-RDD files associated with the finished executor 0
+26/09/16 23:57:45 INFO ExternalShuffleBlockResolver: Executor is not registered (appId=app-20260916235530-0014, execId=0)
+26/09/16 23:57:45 INFO ExternalShuffleBlockResolver: Application app-20260916235530-0014 removed, cleanupLocalDirs = true
+26/09/16 23:57:45 INFO Worker: Cleaning up local directories for application app-20260916235530-0014
+26/09/16 23:57:46 INFO Worker: Asked to kill executor app-20260916235644-0015/0
+26/09/16 23:57:46 INFO ExecutorRunner: Runner thread for executor app-20260916235644-0015/0 interrupted
+26/09/16 23:57:46 INFO ExecutorRunner: Killing process!
+26/09/16 23:57:47 INFO Worker: Executor app-20260916235644-0015/0 finished with state KILLED exitStatus 143
+26/09/16 23:57:47 INFO ExternalShuffleBlockResolver: Clean up non-shuffle and non-RDD files associated with the finished executor 0
+26/09/16 23:57:47 INFO ExternalShuffleBlockResolver: Executor is not registered (appId=app-20260916235644-0015, execId=0)
+26/09/16 23:57:47 INFO Worker: Cleaning up local directories for application app-20260916235644-0015
+26/09/16 23:57:47 INFO ExternalShuffleBlockResolver: Application app-20260916235644-0015 removed, cleanupLocalDirs = true
+26/09/17 00:04:47 INFO Worker: Asked to kill executor app-20260916234722-0013/0
+26/09/17 00:04:47 INFO ExecutorRunner: Runner thread for executor app-20260916234722-0013/0 interrupted
+26/09/17 00:04:47 INFO ExecutorRunner: Killing process!
+26/09/17 00:04:47 INFO Worker: Executor app-20260916234722-0013/0 finished with state KILLED exitStatus 143
+26/09/17 00:04:47 INFO ExternalShuffleBlockResolver: Clean up non-shuffle and non-RDD files associated with the finished executor 0
+26/09/17 00:04:47 INFO ExternalShuffleBlockResolver: Executor is not registered (appId=app-20260916234722-0013, execId=0)
+26/09/17 00:04:47 INFO ExternalShuffleBlockResolver: Application app-20260916234722-0013 removed, cleanupLocalDirs = true
+26/09/17 00:04:47 INFO Worker: Cleaning up local directories for application app-20260916234722-0013

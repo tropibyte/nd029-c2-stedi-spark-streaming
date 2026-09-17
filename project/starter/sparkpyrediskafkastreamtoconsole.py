@@ -87,8 +87,15 @@ redisServerStreamingDF = redisServerRawStreamingDF.selectExpr(
 
 # Selecting the 0th array element is far easier in SQL against a view than with
 # the DataFrame API, which is why the starter routes through a temp view here.
+#
+# The envelope's `key` is the base64 of the Redis key name ("Q3VzdG9tZXI=" is
+# "Customer"), so decoding it and filtering on it says outright which sorted set
+# is wanted, instead of leaning on User and RapidStepTest happening to parse to
+# nulls against the customer schema.
 zSetEntriesEncodedStreamingDF = spark.sql(
-    "select key, zSetEntries[0].element as encodedCustomer from RedisSortedSet"
+    "select key, zSetEntries[0].element as encodedCustomer "
+    "from RedisSortedSet "
+    "where cast(unbase64(key) as string) = 'Customer'"
 )
 
 # unbase64 returns binary, so it is cast back to a string to recover the JSON:

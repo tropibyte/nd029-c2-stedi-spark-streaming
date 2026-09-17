@@ -34,10 +34,13 @@ key name is base64, and the sorted-set member is a base64-encoded JSON document:
 Three details in that payload shape the code:
 
 1. **Not every message is a customer.** STEDI also writes the `User` and
-   `RapidStepTest` sorted sets, and they arrive on the same topic. They parse
-   against the customer schema into rows of all nulls, so
-   `where email is not null and birthDay is not null` is load-bearing, not
-   defensive.
+   `RapidStepTest` sorted sets, and they arrive on the same topic. The scripts
+   filter on the decoded envelope key --
+   `where cast(unbase64(key) as string) = 'Customer'` -- so the intent is stated
+   outright. Dropping those rows purely because they parse to nulls would work
+   today only by accident: a future sorted set carrying an `email` and a
+   `birthDay` would quietly leak into the join. The null filter is kept behind
+   it as a second line.
 2. **`zSetEntries` and `zsetEntries` are the same list under two spellings.**
    Only one is parsed.
 3. **`unbase64` returns binary**, so it has to be cast back to a string before
@@ -99,16 +102,57 @@ The block is brace-matched rather than regex-delimited for that fourth case: a
 pattern that stops at the first `}` would be hidden by any nested block placed
 above the key.
 
+### The log shows rows moving, not just a job starting
+
+A Kafka sink prints nothing per batch, so a bare `awaitTermination()` leaves
+`kafkajoin.log` recording that the job started and then falling silent. Instead
+the query's own progress is polled and reported as each batch commits:
+
+```
+batch 0 -> 4000 input rows, 2000 rows written to customer-risk, 11.9 rows/s, join state holds 2082 rows
+batch 1 -> 4000 input rows, 2000 rows written to customer-risk, 12.7 rows/s, join state holds 4082 rows
+batch 2 -> 4000 input rows, 2000 rows written to customer-risk, 16.4 rows/s, join state holds 6082 rows
+```
+
+This is still `awaitTermination` holding the application open — the timeout
+argument just lets it return periodically so progress can be printed, and the
+loop exits only when the query stops. Two details were needed to make it work:
+`maxOffsetsPerTrigger`, because reading from `earliest` otherwise makes batch 0
+swallow the entire backlog and report nothing for minutes; and line-buffered
+stdout, because Python block-buffers a pipe and `| tee` is a pipe, so the
+progress would otherwise sit in the process buffer and be lost outright when the
+job is killed.
+
+That last field is deliberate. It reports the join's state store size, which
+turns the limitation below from an assertion into something observable.
+
 ### Known limitation: the join state is unbounded
 
 The stream-stream join carries no watermark, so its state grows without limit.
-That is a deliberate trade rather than an omission. A customer is written to
-Redis exactly once, at registration, and can go on being scored indefinitely
-afterwards — so any time-bounded join would eventually evict the customer record
-and silently stop matching that customer's later risk scores, which is a worse
-failure than unbounded state. The right production fix is not a watermark but a
-change of shape: the customer side belongs in a lookup table joined against the
-risk stream, at which point the streaming state becomes bounded naturally.
+The progress above shows it plainly: 2,082 rows, then 4,082, then 6,082 — exactly
+2,000 more per batch, with nothing ever ageing out. That is a deliberate trade rather than
+an omission. A customer is written to Redis exactly once, at registration, and
+can go on being scored indefinitely afterwards, so any time-bounded join would
+eventually evict the customer record and silently stop matching that customer's
+later risk scores. That is a worse failure than unbounded state, because it is
+invisible.
+
+The right fix is not a watermark but a change of shape, and
+`sparkpyoptionalboundedjoin.py` demonstrates it rather than just describing it:
+materialise the customers into a lookup table and join each micro-batch of risk
+scores against that table, turning a stream-stream join into a stream-static
+one. The same progress field then reports:
+
+```
+batch 2: stream-static join, 2000 of 2000 risk scores matched against 82 known customers
+batch 2 -> streaming join state holds 0 rows (bounded by design)
+```
+
+Zero streaming state, no watermark, and a customer registered months ago still
+matches. The graded `sparkpykafkajoin.py` is deliberately left as the
+stream-stream join, because the rubric asks for two *streaming* dataframes to be
+joined; the bounded version lives alongside it as a separate script rather than
+replacing it.
 
 ## Going past the rubric
 
@@ -206,6 +250,7 @@ bash project/starter/submit-redis-kafka-streaming.sh    # validator: birth years
 bash project/starter/submit-event-kafkastreaming.sh     # validator: risk scores
 bash project/starter/submit-optional-calculate-score.sh # optional extra
 bash project/starter/submit-optional-risk-quality.sh    # optional extra
+bash project/starter/submit-optional-bounded-join.sh    # optional extra
 ```
 
 The graph is at <http://localhost:4567/risk-graph.html>; the Spark master UI, which
@@ -227,6 +272,7 @@ shows the applications running on the cluster, is at <http://localhost:8080>.
 
 Supporting evidence beyond the required list: `spark/logs/customer-risk-sample.log`
 (what the sink actually wrote), `spark/logs/optional-score.log` and
-`spark/logs/optional-quality.log` (the two optional extras),
+`spark/logs/optional-quality.log` and `spark/logs/optional-bounded-join.log`
+(the three optional extras),
 `screenshots/spark-cluster-applications.png` (the jobs running on the standalone
 cluster) and `screenshots/stedi-risk-graph-3.png`.

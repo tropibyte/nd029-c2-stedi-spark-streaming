@@ -98,3 +98,38 @@ Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
 26/09/16 23:23:39 INFO Master: spark:32875 got disassociated, removing it.
 26/09/16 23:23:39 INFO Master: Removing app app-20260916232235-0010
 26/09/16 23:23:40 WARN Master: Got status update for unknown executor app-20260916232235-0010/0
+26/09/16 23:33:34 INFO Master: Registering app stedi-risk-score-by-birth-year
+26/09/16 23:33:35 INFO Master: Registered app stedi-risk-score-by-birth-year with ID app-20260916233335-0011
+26/09/16 23:33:35 INFO Master: Launching executor app-20260916233335-0011/0 on worker worker-20260916185327-172.18.0.6-33449
+26/09/16 23:39:15 INFO Master: 172.18.0.4:39828 got disassociated, removing it.
+26/09/16 23:39:15 INFO Master: spark:39489 got disassociated, removing it.
+26/09/16 23:39:15 INFO Master: Removing app app-20260916233335-0011
+26/09/16 23:39:16 WARN Master: Got status update for unknown executor app-20260916233335-0011/0
+26/09/16 23:39:37 INFO Master: Registering app stedi-risk-score-by-birth-year
+26/09/16 23:39:37 INFO Master: Registered app stedi-risk-score-by-birth-year with ID app-20260916233937-0012
+26/09/16 23:39:37 INFO Master: Launching executor app-20260916233937-0012/0 on worker worker-20260916185327-172.18.0.6-33449
+26/09/16 23:46:44 INFO Master: 172.18.0.4:59054 got disassociated, removing it.
+26/09/16 23:46:44 INFO Master: spark:36187 got disassociated, removing it.
+26/09/16 23:46:44 INFO Master: Removing app app-20260916233937-0012
+26/09/16 23:46:44 WARN Master: Got status update for unknown executor app-20260916233937-0012/0
+26/09/16 23:47:22 INFO Master: Registering app stedi-risk-score-by-birth-year
+26/09/16 23:47:22 INFO Master: Registered app stedi-risk-score-by-birth-year with ID app-20260916234722-0013
+26/09/16 23:47:22 INFO Master: Launching executor app-20260916234722-0013/0 on worker worker-20260916185327-172.18.0.6-33449
+26/09/16 23:55:30 INFO Master: Registering app stedi-optional-bounded-join
+26/09/16 23:55:30 INFO Master: Registered app stedi-optional-bounded-join with ID app-20260916235530-0014
+26/09/16 23:55:30 INFO Master: Launching executor app-20260916235530-0014/0 on worker worker-20260916185327-172.18.0.6-33449
+26/09/16 23:56:44 INFO Master: Registering app stedi-redis-customer-birthyear
+26/09/16 23:56:44 INFO Master: Registered app stedi-redis-customer-birthyear with ID app-20260916235644-0015
+26/09/16 23:56:44 INFO Master: Launching executor app-20260916235644-0015/0 on worker worker-20260916185327-172.18.0.6-33449
+26/09/16 23:57:45 INFO Master: 172.18.0.4:45942 got disassociated, removing it.
+26/09/16 23:57:45 INFO Master: spark:39991 got disassociated, removing it.
+26/09/16 23:57:45 INFO Master: Removing app app-20260916235530-0014
+26/09/16 23:57:45 WARN Master: Got status update for unknown executor app-20260916235530-0014/0
+26/09/16 23:57:46 INFO Master: 172.18.0.4:36140 got disassociated, removing it.
+26/09/16 23:57:46 INFO Master: spark:43285 got disassociated, removing it.
+26/09/16 23:57:46 INFO Master: Removing app app-20260916235644-0015
+26/09/16 23:57:47 WARN Master: Got status update for unknown executor app-20260916235644-0015/0
+26/09/17 00:04:47 INFO Master: 172.18.0.4:32904 got disassociated, removing it.
+26/09/17 00:04:47 INFO Master: spark:44467 got disassociated, removing it.
+26/09/17 00:04:47 INFO Master: Removing app app-20260916234722-0013
+26/09/17 00:04:47 WARN Master: Got status update for unknown executor app-20260916234722-0013/0

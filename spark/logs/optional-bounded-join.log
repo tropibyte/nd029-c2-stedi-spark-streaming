@@ -1,0 +1,249 @@
+:: loading settings :: url = jar:file:/opt/spark/jars/ivy-2.5.0.jar!/org/apache/ivy/core/settings/ivysettings.xml
+Ivy Default Cache set to: /root/.ivy2/cache
+The jars for the packages stored in: /root/.ivy2/jars
+org.apache.spark#spark-sql-kafka-0-10_2.12 added as a dependency
+:: resolving dependencies :: org.apache.spark#spark-submit-parent-9deab190-be4e-4bfa-a201-4258e0c1ec52;1.0
+	confs: [default]
+	found org.apache.spark#spark-sql-kafka-0-10_2.12;3.3.0 in central
+	found org.apache.spark#spark-token-provider-kafka-0-10_2.12;3.3.0 in central
+	found org.apache.kafka#kafka-clients;2.8.1 in central
+	found org.lz4#lz4-java;1.8.0 in central
+	found org.xerial.snappy#snappy-java;1.1.8.4 in central
+	found org.slf4j#slf4j-api;1.7.32 in central
+	found org.apache.hadoop#hadoop-client-runtime;3.3.2 in central
+	found org.spark-project.spark#unused;1.0.0 in central
+	found org.apache.hadoop#hadoop-client-api;3.3.2 in central
+	found commons-logging#commons-logging;1.1.3 in central
+	found com.google.code.findbugs#jsr305;3.0.0 in central
+	found org.apache.commons#commons-pool2;2.11.1 in central
+:: resolution report :: resolve 1173ms :: artifacts dl 36ms
+	:: modules in use:
+	com.google.code.findbugs#jsr305;3.0.0 from central in [default]
+	commons-logging#commons-logging;1.1.3 from central in [default]
+	org.apache.commons#commons-pool2;2.11.1 from central in [default]
+	org.apache.hadoop#hadoop-client-api;3.3.2 from central in [default]
+	org.apache.hadoop#hadoop-client-runtime;3.3.2 from central in [default]
+	org.apache.kafka#kafka-clients;2.8.1 from central in [default]
+	org.apache.spark#spark-sql-kafka-0-10_2.12;3.3.0 from central in [default]
+	org.apache.spark#spark-token-provider-kafka-0-10_2.12;3.3.0 from central in [default]
+	org.lz4#lz4-java;1.8.0 from central in [default]
+	org.slf4j#slf4j-api;1.7.32 from central in [default]
+	org.spark-project.spark#unused;1.0.0 from central in [default]
+	org.xerial.snappy#snappy-java;1.1.8.4 from central in [default]
+	---------------------------------------------------------------------
+	|                  |            modules            ||   artifacts   |
+	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
+	---------------------------------------------------------------------
+	|      default     |   12  |   0   |   0   |   0   ||   12  |   0   |
+	---------------------------------------------------------------------
+:: retrieving :: org.apache.spark#spark-submit-parent-9deab190-be4e-4bfa-a201-4258e0c1ec52
+	confs: [default]
+	0 artifacts copied, 12 already retrieved (0kB/22ms)
+26/09/16 23:55:26 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+26/09/16 23:55:28 INFO SparkContext: Running Spark version 3.3.0
+26/09/16 23:55:28 INFO ResourceUtils: ==============================================================
+26/09/16 23:55:28 INFO ResourceUtils: No custom resources configured for spark.driver.
+26/09/16 23:55:28 INFO ResourceUtils: ==============================================================
+26/09/16 23:55:28 INFO SparkContext: Submitted application: stedi-optional-bounded-join
+26/09/16 23:55:28 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 1, script: , vendor: , memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/09/16 23:55:28 INFO ResourceProfile: Limiting resource is cpu
+26/09/16 23:55:28 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/09/16 23:55:28 INFO SecurityManager: Changing view acls to: root
+26/09/16 23:55:28 INFO SecurityManager: Changing modify acls to: root
+26/09/16 23:55:28 INFO SecurityManager: Changing view acls groups to: 
+26/09/16 23:55:28 INFO SecurityManager: Changing modify acls groups to: 
+26/09/16 23:55:28 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(root); groups with view permissions: Set(); users  with modify permissions: Set(root); groups with modify permissions: Set()
+26/09/16 23:55:29 INFO Utils: Successfully started service 'sparkDriver' on port 39991.
+26/09/16 23:55:29 INFO SparkEnv: Registering MapOutputTracker
+26/09/16 23:55:29 INFO SparkEnv: Registering BlockManagerMaster
+26/09/16 23:55:29 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/09/16 23:55:29 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/09/16 23:55:29 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/09/16 23:55:29 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-14099810-c3c7-401d-a5db-09ff3f4a5722
+26/09/16 23:55:29 INFO MemoryStore: MemoryStore started with capacity 434.4 MiB
+26/09/16 23:55:29 INFO SparkEnv: Registering OutputCommitCoordinator
+26/09/16 23:55:29 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+26/09/16 23:55:29 INFO Utils: Successfully started service 'SparkUI' on port 4041.
+26/09/16 23:55:29 INFO SparkContext: Added JAR file:///root/.ivy2/jars/org.apache.spark_spark-sql-kafka-0-10_2.12-3.3.0.jar at spark://spark:39991/jars/org.apache.spark_spark-sql-kafka-0-10_2.12-3.3.0.jar with timestamp 1789602928319
+26/09/16 23:55:29 INFO SparkContext: Added JAR file:///root/.ivy2/jars/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.3.0.jar at spark://spark:39991/jars/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.3.0.jar with timestamp 1789602928319
+26/09/16 23:55:29 INFO SparkContext: Added JAR file:///root/.ivy2/jars/org.apache.kafka_kafka-clients-2.8.1.jar at spark://spark:39991/jars/org.apache.kafka_kafka-clients-2.8.1.jar with timestamp 1789602928319
+26/09/16 23:55:29 INFO SparkContext: Added JAR file:///root/.ivy2/jars/com.google.code.findbugs_jsr305-3.0.0.jar at spark://spark:39991/jars/com.google.code.findbugs_jsr305-3.0.0.jar with timestamp 1789602928319
+26/09/16 23:55:29 INFO SparkContext: Added JAR file:///root/.ivy2/jars/org.apache.commons_commons-pool2-2.11.1.jar at spark://spark:39991/jars/org.apache.commons_commons-pool2-2.11.1.jar with timestamp 1789602928319
+26/09/16 23:55:29 INFO SparkContext: Added JAR file:///root/.ivy2/jars/org.spark-project.spark_unused-1.0.0.jar at spark://spark:39991/jars/org.spark-project.spark_unused-1.0.0.jar with timestamp 1789602928319
+26/09/16 23:55:29 INFO SparkContext: Added JAR file:///root/.ivy2/jars/org.apache.hadoop_hadoop-client-runtime-3.3.2.jar at spark://spark:39991/jars/org.apache.hadoop_hadoop-client-runtime-3.3.2.jar with timestamp 1789602928319
+26/09/16 23:55:29 INFO SparkContext: Added JAR file:///root/.ivy2/jars/org.lz4_lz4-java-1.8.0.jar at spark://spark:39991/jars/org.lz4_lz4-java-1.8.0.jar with timestamp 1789602928319
+26/09/16 23:55:29 INFO SparkContext: Added JAR file:///root/.ivy2/jars/org.xerial.snappy_snappy-java-1.1.8.4.jar at spark://spark:39991/jars/org.xerial.snappy_snappy-java-1.1.8.4.jar with timestamp 1789602928319
+26/09/16 23:55:29 INFO SparkContext: Added JAR file:///root/.ivy2/jars/org.slf4j_slf4j-api-1.7.32.jar at spark://spark:39991/jars/org.slf4j_slf4j-api-1.7.32.jar with timestamp 1789602928319
+26/09/16 23:55:29 INFO SparkContext: Added JAR file:///root/.ivy2/jars/org.apache.hadoop_hadoop-client-api-3.3.2.jar at spark://spark:39991/jars/org.apache.hadoop_hadoop-client-api-3.3.2.jar with timestamp 1789602928319
+26/09/16 23:55:29 INFO SparkContext: Added JAR file:///root/.ivy2/jars/commons-logging_commons-logging-1.1.3.jar at spark://spark:39991/jars/commons-logging_commons-logging-1.1.3.jar with timestamp 1789602928319
+26/09/16 23:55:29 INFO SparkContext: Added file file:///root/.ivy2/jars/org.apache.spark_spark-sql-kafka-0-10_2.12-3.3.0.jar at spark://spark:39991/files/org.apache.spark_spark-sql-kafka-0-10_2.12-3.3.0.jar with timestamp 1789602928319
+26/09/16 23:55:30 INFO Utils: Copying /root/.ivy2/jars/org.apache.spark_spark-sql-kafka-0-10_2.12-3.3.0.jar to /tmp/spark-4cfe21b5-dff8-4185-9c99-554e3f1c1ec5/userFiles-211c6be6-ce60-4857-a799-b3db37787826/org.apache.spark_spark-sql-kafka-0-10_2.12-3.3.0.jar
+26/09/16 23:55:30 INFO SparkContext: Added file file:///root/.ivy2/jars/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.3.0.jar at spark://spark:39991/files/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.3.0.jar with timestamp 1789602928319
+26/09/16 23:55:30 INFO Utils: Copying /root/.ivy2/jars/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.3.0.jar to /tmp/spark-4cfe21b5-dff8-4185-9c99-554e3f1c1ec5/userFiles-211c6be6-ce60-4857-a799-b3db37787826/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.3.0.jar
+26/09/16 23:55:30 INFO SparkContext: Added file file:///root/.ivy2/jars/org.apache.kafka_kafka-clients-2.8.1.jar at spark://spark:39991/files/org.apache.kafka_kafka-clients-2.8.1.jar with timestamp 1789602928319
+26/09/16 23:55:30 INFO Utils: Copying /root/.ivy2/jars/org.apache.kafka_kafka-clients-2.8.1.jar to /tmp/spark-4cfe21b5-dff8-4185-9c99-554e3f1c1ec5/userFiles-211c6be6-ce60-4857-a799-b3db37787826/org.apache.kafka_kafka-clients-2.8.1.jar
+26/09/16 23:55:30 INFO SparkContext: Added file file:///root/.ivy2/jars/com.google.code.findbugs_jsr305-3.0.0.jar at spark://spark:39991/files/com.google.code.findbugs_jsr305-3.0.0.jar with timestamp 1789602928319
+26/09/16 23:55:30 INFO Utils: Copying /root/.ivy2/jars/com.google.code.findbugs_jsr305-3.0.0.jar to /tmp/spark-4cfe21b5-dff8-4185-9c99-554e3f1c1ec5/userFiles-211c6be6-ce60-4857-a799-b3db37787826/com.google.code.findbugs_jsr305-3.0.0.jar
+26/09/16 23:55:30 INFO SparkContext: Added file file:///root/.ivy2/jars/org.apache.commons_commons-pool2-2.11.1.jar at spark://spark:39991/files/org.apache.commons_commons-pool2-2.11.1.jar with timestamp 1789602928319
+26/09/16 23:55:30 INFO Utils: Copying /root/.ivy2/jars/org.apache.commons_commons-pool2-2.11.1.jar to /tmp/spark-4cfe21b5-dff8-4185-9c99-554e3f1c1ec5/userFiles-211c6be6-ce60-4857-a799-b3db37787826/org.apache.commons_commons-pool2-2.11.1.jar
+26/09/16 23:55:30 INFO SparkContext: Added file file:///root/.ivy2/jars/org.spark-project.spark_unused-1.0.0.jar at spark://spark:39991/files/org.spark-project.spark_unused-1.0.0.jar with timestamp 1789602928319
+26/09/16 23:55:30 INFO Utils: Copying /root/.ivy2/jars/org.spark-project.spark_unused-1.0.0.jar to /tmp/spark-4cfe21b5-dff8-4185-9c99-554e3f1c1ec5/userFiles-211c6be6-ce60-4857-a799-b3db37787826/org.spark-project.spark_unused-1.0.0.jar
+26/09/16 23:55:30 INFO SparkContext: Added file file:///root/.ivy2/jars/org.apache.hadoop_hadoop-client-runtime-3.3.2.jar at spark://spark:39991/files/org.apache.hadoop_hadoop-client-runtime-3.3.2.jar with timestamp 1789602928319
+26/09/16 23:55:30 INFO Utils: Copying /root/.ivy2/jars/org.apache.hadoop_hadoop-client-runtime-3.3.2.jar to /tmp/spark-4cfe21b5-dff8-4185-9c99-554e3f1c1ec5/userFiles-211c6be6-ce60-4857-a799-b3db37787826/org.apache.hadoop_hadoop-client-runtime-3.3.2.jar
+26/09/16 23:55:30 INFO SparkContext: Added file file:///root/.ivy2/jars/org.lz4_lz4-java-1.8.0.jar at spark://spark:39991/files/org.lz4_lz4-java-1.8.0.jar with timestamp 1789602928319
+26/09/16 23:55:30 INFO Utils: Copying /root/.ivy2/jars/org.lz4_lz4-java-1.8.0.jar to /tmp/spark-4cfe21b5-dff8-4185-9c99-554e3f1c1ec5/userFiles-211c6be6-ce60-4857-a799-b3db37787826/org.lz4_lz4-java-1.8.0.jar
+26/09/16 23:55:30 INFO SparkContext: Added file file:///root/.ivy2/jars/org.xerial.snappy_snappy-java-1.1.8.4.jar at spark://spark:39991/files/org.xerial.snappy_snappy-java-1.1.8.4.jar with timestamp 1789602928319
+26/09/16 23:55:30 INFO Utils: Copying /root/.ivy2/jars/org.xerial.snappy_snappy-java-1.1.8.4.jar to /tmp/spark-4cfe21b5-dff8-4185-9c99-554e3f1c1ec5/userFiles-211c6be6-ce60-4857-a799-b3db37787826/org.xerial.snappy_snappy-java-1.1.8.4.jar
+26/09/16 23:55:30 INFO SparkContext: Added file file:///root/.ivy2/jars/org.slf4j_slf4j-api-1.7.32.jar at spark://spark:39991/files/org.slf4j_slf4j-api-1.7.32.jar with timestamp 1789602928319
+26/09/16 23:55:30 INFO Utils: Copying /root/.ivy2/jars/org.slf4j_slf4j-api-1.7.32.jar to /tmp/spark-4cfe21b5-dff8-4185-9c99-554e3f1c1ec5/userFiles-211c6be6-ce60-4857-a799-b3db37787826/org.slf4j_slf4j-api-1.7.32.jar
+26/09/16 23:55:30 INFO SparkContext: Added file file:///root/.ivy2/jars/org.apache.hadoop_hadoop-client-api-3.3.2.jar at spark://spark:39991/files/org.apache.hadoop_hadoop-client-api-3.3.2.jar with timestamp 1789602928319
+26/09/16 23:55:30 INFO Utils: Copying /root/.ivy2/jars/org.apache.hadoop_hadoop-client-api-3.3.2.jar to /tmp/spark-4cfe21b5-dff8-4185-9c99-554e3f1c1ec5/userFiles-211c6be6-ce60-4857-a799-b3db37787826/org.apache.hadoop_hadoop-client-api-3.3.2.jar
+26/09/16 23:55:30 INFO SparkContext: Added file file:///root/.ivy2/jars/commons-logging_commons-logging-1.1.3.jar at spark://spark:39991/files/commons-logging_commons-logging-1.1.3.jar with timestamp 1789602928319
+26/09/16 23:55:30 INFO Utils: Copying /root/.ivy2/jars/commons-logging_commons-logging-1.1.3.jar to /tmp/spark-4cfe21b5-dff8-4185-9c99-554e3f1c1ec5/userFiles-211c6be6-ce60-4857-a799-b3db37787826/commons-logging_commons-logging-1.1.3.jar
+26/09/16 23:55:30 INFO StandaloneAppClient$ClientEndpoint: Connecting to master spark://spark:7077...
+26/09/16 23:55:30 INFO TransportClientFactory: Successfully created connection to spark/172.18.0.4:7077 after 52 ms (0 ms spent in bootstraps)
+26/09/16 23:55:30 INFO StandaloneSchedulerBackend: Connected to Spark cluster with app ID app-20260916235530-0014
+26/09/16 23:55:30 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20260916235530-0014/0 on worker-20260916185327-172.18.0.6-33449 (172.18.0.6:33449) with 1 core(s)
+26/09/16 23:55:30 INFO StandaloneSchedulerBackend: Granted executor ID app-20260916235530-0014/0 on hostPort 172.18.0.6:33449 with 1 core(s), 1024.0 MiB RAM
+26/09/16 23:55:30 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 45641.
+26/09/16 23:55:30 INFO NettyBlockTransferService: Server created on spark:45641
+26/09/16 23:55:30 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/09/16 23:55:30 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, spark, 45641, None)
+26/09/16 23:55:30 INFO BlockManagerMasterEndpoint: Registering block manager spark:45641 with 434.4 MiB RAM, BlockManagerId(driver, spark, 45641, None)
+26/09/16 23:55:30 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, spark, 45641, None)
+26/09/16 23:55:30 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, spark, 45641, None)
+26/09/16 23:55:30 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20260916235530-0014/0 is now RUNNING
+26/09/16 23:55:31 INFO StandaloneSchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+26/09/16 23:55:40 WARN ResolveWriteToStream: spark.sql.adaptive.enabled is not supported in streaming DataFrames/Datasets and will be disabled.
+26/09/16 23:55:40 WARN ResolveWriteToStream: spark.sql.adaptive.enabled is not supported in streaming DataFrames/Datasets and will be disabled.
+===== batch 0: customer table not written yet =====
+===== batch 1: customer table not written yet =====
+batch 1 -> streaming join state holds 0 rows (bounded by design)
+===== batch 2: stream-static join, 2000 of 2000 risk scores matched against 82 known customers =====
++--------------------+-----+--------------------+---------+
+|            customer|score|               email|birthYear|
++--------------------+-----+--------------------+---------+
+|Suresh.Habschied@...| -4.0|Suresh.Habschied@...|     1957|
+|Jason.Habschied@t...| -3.5|Jason.Habschied@t...|     1956|
+|Jason.Khatib@test...| -2.0|Jason.Khatib@test...|     1955|
+|Craig.Sanchez@tes...| -2.0|Craig.Sanchez@tes...|     1954|
+|Eric.Hansen@test.com| -1.0|Eric.Hansen@test.com|     1953|
+|Senthil.Staples@t...| -4.0|Senthil.Staples@t...|     1952|
+|Spencer.Howard@te...| -2.0|Spencer.Howard@te...|     1951|
+|Edward.Jones@test...| -1.5|Edward.Jones@test...|     1950|
+|    Eric.Wu@test.com| -7.5|    Eric.Wu@test.com|     1949|
+|Frank.Sanchez@tes...|  0.5|Frank.Sanchez@tes...|     1948|
+|Gail.Habschied@te...| 19.5|Gail.Habschied@te...|     1947|
+|Jerry.Jones@test.com|  4.5|Jerry.Jones@test.com|     1946|
+|Santosh.Khatib@te...| -6.0|Santosh.Khatib@te...|     1944|
+|Jason.Lincoln@tes...| 20.5|Jason.Lincoln@tes...|     1943|
+|Angie.Abram@test.com|  8.0|Angie.Abram@test.com|     1942|
+|Travis.Doshi@test...|-10.0|Travis.Doshi@test...|     1941|
+| Gail.Smith@test.com|-16.5| Gail.Smith@test.com|     1940|
+| Ben.Hansen@test.com| 19.0| Ben.Hansen@test.com|     1939|
+|Santosh.Huey@test...|  5.0|Santosh.Huey@test...|     1938|
+|  Lyn.Abram@test.com|  4.0|  Lyn.Abram@test.com|     1937|
++--------------------+-----+--------------------+---------+
+only showing top 20 rows
+
+batch 2 -> streaming join state holds 0 rows (bounded by design)
+===== batch 3: stream-static join, 2000 of 2000 risk scores matched against 132 known customers =====
++--------------------+-----+--------------------+---------+
+|            customer|score|               email|birthYear|
++--------------------+-----+--------------------+---------+
+|Jason.Khatib@test...| -3.5|Jason.Khatib@test...|     1955|
+|Craig.Sanchez@tes...| -4.5|Craig.Sanchez@tes...|     1954|
+|Eric.Hansen@test.com| -1.0|Eric.Hansen@test.com|     1953|
+|Senthil.Staples@t...| -1.5|Senthil.Staples@t...|     1952|
+|Spencer.Howard@te...| -2.5|Spencer.Howard@te...|     1951|
+|Edward.Jones@test...| -5.0|Edward.Jones@test...|     1950|
+|    Eric.Wu@test.com| 40.0|    Eric.Wu@test.com|     1949|
+|Frank.Sanchez@tes...|-29.5|Frank.Sanchez@tes...|     1948|
+|Gail.Habschied@te...|  4.5|Gail.Habschied@te...|     1947|
+|Jerry.Jones@test.com| -5.0|Jerry.Jones@test.com|     1946|
+|Santosh.Khatib@te...| -9.5|Santosh.Khatib@te...|     1944|
+|Jason.Lincoln@tes...|-11.0|Jason.Lincoln@tes...|     1943|
+|Angie.Abram@test.com|  8.5|Angie.Abram@test.com|     1942|
+|Travis.Doshi@test...| 11.5|Travis.Doshi@test...|     1941|
+| Gail.Smith@test.com| -7.5| Gail.Smith@test.com|     1940|
+| Ben.Hansen@test.com|  4.0| Ben.Hansen@test.com|     1939|
+|Santosh.Huey@test...| 13.5|Santosh.Huey@test...|     1938|
+|  Lyn.Abram@test.com|  2.5|  Lyn.Abram@test.com|     1937|
+|Trevor.Aristotle@...| 10.5|Trevor.Aristotle@...|     1964|
+|Craig.Aristotle@t...|  0.5|Craig.Aristotle@t...|     1963|
++--------------------+-----+--------------------+---------+
+only showing top 20 rows
+
+batch 3 -> streaming join state holds 0 rows (bounded by design)
+===== batch 4: stream-static join, 456 of 456 risk scores matched against 132 known customers =====
++--------------------+-----+--------------------+---------+
+|            customer|score|               email|birthYear|
++--------------------+-----+--------------------+---------+
+|Ashley.Habschied@...| -4.0|Ashley.Habschied@...|     1952|
+|Jane.Harris@test.com| -5.0|Jane.Harris@test.com|     1951|
+| Craig.Huey@test.com| -5.0| Craig.Huey@test.com|     1950|
+|Larry.Habschied@t...|-10.5|Larry.Habschied@t...|     1949|
+|Spencer.Jackson@t...| -8.5|Spencer.Jackson@t...|     1948|
+|Christina.Aristot...|  5.0|Christina.Aristot...|     1947|
+|Christina.Jackson...| -3.0|Christina.Jackson...|     1946|
+|Ben.Anderson@test...| -3.5|Ben.Anderson@test...|     1945|
+|Ben.Habschied@tes...|-34.0|Ben.Habschied@tes...|     1944|
+|Sarah.Khatib@test...| -7.5|Sarah.Khatib@test...|     1943|
+|   Angie.Wu@test.com|-24.0|   Angie.Wu@test.com|     1942|
+|David.Lincoln@tes...|-10.5|David.Lincoln@tes...|     1941|
+|Frank.Jones@test.com|-32.0|Frank.Jones@test.com|     1940|
+|Angie.Anandh@test...|  6.5|Angie.Anandh@test...|     1939|
+|Spencer.Jefferson...| -1.5|Spencer.Jefferson...|     1938|
+|Santosh.Abram@tes...|-26.5|Santosh.Abram@tes...|     1937|
+|Jacob.Ahmed@test.com| -8.5|Jacob.Ahmed@test.com|     1965|
+|Frank.Smith@test.com|  0.5|Frank.Smith@test.com|     1963|
+|Santosh.Staples@t...|  8.5|Santosh.Staples@t...|     1962|
+|David.Staples@tes...|-16.5|David.Staples@tes...|     1961|
++--------------------+-----+--------------------+---------+
+only showing top 20 rows
+
+batch 4 -> streaming join state holds 0 rows (bounded by design)
+===== batch 5: stream-static join, 10 of 10 risk scores matched against 132 known customers =====
++--------------------+-----+--------------------+---------+
+|            customer|score|               email|birthYear|
++--------------------+-----+--------------------+---------+
+|Ashley.Habschied@...| -4.0|Ashley.Habschied@...|     1952|
+|Jane.Harris@test.com| -3.5|Jane.Harris@test.com|     1951|
+| Craig.Huey@test.com| -2.5| Craig.Huey@test.com|     1950|
+|Larry.Habschied@t...| 13.0|Larry.Habschied@t...|     1949|
+|Spencer.Jackson@t...| 11.0|Spencer.Jackson@t...|     1948|
+|Christina.Aristot...| 50.0|Christina.Aristot...|     1947|
+|Christina.Jackson...|-16.0|Christina.Jackson...|     1946|
+|Ben.Anderson@test...|-23.0|Ben.Anderson@test...|     1945|
+|Ben.Habschied@tes...| 22.0|Ben.Habschied@tes...|     1944|
+|Sarah.Khatib@test...|-10.5|Sarah.Khatib@test...|     1943|
++--------------------+-----+--------------------+---------+
+
+batch 5 -> streaming join state holds 0 rows (bounded by design)
+===== batch 6: stream-static join, 7 of 7 risk scores matched against 132 known customers =====
++--------------------+-----+--------------------+---------+
+|            customer|score|               email|birthYear|
++--------------------+-----+--------------------+---------+
+|   Angie.Wu@test.com| 28.0|   Angie.Wu@test.com|     1942|
+|David.Lincoln@tes...| -4.5|David.Lincoln@tes...|     1941|
+|Frank.Jones@test.com| 13.0|Frank.Jones@test.com|     1940|
+|Angie.Anandh@test...|-35.0|Angie.Anandh@test...|     1939|
+|Spencer.Jefferson...| -7.0|Spencer.Jefferson...|     1938|
+|Santosh.Abram@tes...|  2.5|Santosh.Abram@tes...|     1937|
+|Jacob.Ahmed@test.com| -1.0|Jacob.Ahmed@test.com|     1965|
++--------------------+-----+--------------------+---------+
+
+===== batch 7: stream-static join, 7 of 7 risk scores matched against 132 known customers =====
++--------------------+-----+--------------------+---------+
+|            customer|score|               email|birthYear|
++--------------------+-----+--------------------+---------+
+|Frank.Smith@test.com| 19.0|Frank.Smith@test.com|     1963|
+|Santosh.Staples@t...| -7.5|Santosh.Staples@t...|     1962|
+|David.Staples@tes...|  4.0|David.Staples@tes...|     1961|
+|Eric.Gonzalez@tes...| -2.0|Eric.Gonzalez@tes...|     1959|
+|Frank.Mitra@test.com| -1.5|Frank.Mitra@test.com|     1957|
+|Neeraj.Davis@test...| -4.0|Neeraj.Davis@test...|     1956|
+|Ashley.Spencer@te...| -3.0|Ashley.Spencer@te...|     1955|
++--------------------+-----+--------------------+---------+
+
+batch 7 -> streaming join state holds 0 rows (bounded by design)
